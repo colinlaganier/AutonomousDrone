@@ -1,6 +1,5 @@
 Altium Designer Pick and Place Locations,,,,,,,,
 ,,,,,,,,
-========================================================================================================================,,,,,,,,
 File Design Information:,,,,,,,,
 ,,,,,,,,
 Date:       06/04/22,,,,,,,,
@@ -10,30 +9,30 @@ Units used: mm,,,,,,,,
 Designator,Comment,JCLPCB Part #,Layer,Footprint,Center-X(mm),Center-Y(mm),Rotation,Description
 SW1,B3U-1000P,C231329,TopLayer,SW-SMD-2_2.5x3.0x1.6,19.2532,6.0452,270,"2.5mm 1.6mm Round Button 50mA Brick nogging 3mm SPST 12V SMD,2.5x3x1.6mm Tactile Switches ROHS"
 SW2,B3U-1000P,C231329,TopLayer,SW-SMD-2_2.5x3.0x1.6,16.129,6.0452,270,"2.5mm 1.6mm Round Button 50mA Brick nogging 3mm SPST 12V SMD,2.5x3x1.6mm Tactile Switches ROHS"
-C11,CL05B104KO5NNNC,C1525,TopLayer,0402,4.953,21.59,180,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C11,CL05B104KO5NNNC,C1525,TopLayer,402,4.953,21.59,180,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
 IC001,DRV8871DDAR,C75864,TopLayer,SOIC-8_3.9x4.9x1.27P,10.5,12.065,0,SO-8 Motor Driver ICs ROHS
-C12,CL05B224KO5NNNC,C16772,TopLayer,0402,13.215,6.731,90,16V 220nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-R10,0402WGF301JTCE,C67234,TopLayer,0402,22.098,4.699,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
-R9,0402WGF301JTCE,C67234,TopLayer,0402,22.098,5.715,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
-R8,0402WGF301JTCE,C67234,TopLayer,0402,22.098,6.604,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
-R7,0402WGF2201TCE,C25879,TopLayer,0402,6.096,7.747,270,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 2.2k? 0402 Chip Resistor - Surface Mount ROHS
-R6,0402WGF2201TCE,C25879,TopLayer,0402,4.96,6.604,90,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 2.2k? 0402 Chip Resistor - Surface Mount ROHS
-R5,0402WGF0000TCE,C17168,TopLayer,0402,22.098,7.62,180,±1% 1/16W Thick Film Resistors 50V ±800ppm/? -55?~+155? 0? 0402 Chip Resistor - Surface Mount ROHS
-R4,0402WGF4701TCE,C25900,TopLayer,0402,28.575,7.747,180,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 4.7k? 0402 Chip Resistor - Surface Mount ROHS
-R3,0402WGF4701TCE,C25900,TopLayer,0402,28.575,8.763,180,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 4.7k? 0402 Chip Resistor - Surface Mount ROHS
-R2,0402WGF1002TCE,C25744,TopLayer,0402,28.695,15.8677,0,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 10k? 0402 Chip Resistor - Surface Mount ROHS
-R1,0402WGF3002TCE,C25776,TopLayer,0402,5.842,10.668,90,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 30k? 0402 Chip Resistor - Surface Mount ROHS
+C12,CL05B224KO5NNNC,C16772,TopLayer,402,13.215,6.731,90,16V 220nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+R10,0402WGF301JTCE,C67234,TopLayer,402,22.098,4.699,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
+R9,0402WGF301JTCE,C67234,TopLayer,402,22.098,5.715,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
+R8,0402WGF301JTCE,C67234,TopLayer,402,22.098,6.604,0,±1% 1/16W Thick Film Resistors 50V ±200ppm/? -55?~+155? 30.1? 0402 Chip Resistor - Surface Mount ROHS
+R7,0402WGF2201TCE,C25879,TopLayer,402,6.096,7.747,270,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 2.2k? 0402 Chip Resistor - Surface Mount ROHS
+R6,0402WGF2201TCE,C25879,TopLayer,402,4.96,6.604,90,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 2.2k? 0402 Chip Resistor - Surface Mount ROHS
+R5,0402WGF0000TCE,C17168,TopLayer,402,22.098,7.62,180,±1% 1/16W Thick Film Resistors 50V ±800ppm/? -55?~+155? 0? 0402 Chip Resistor - Surface Mount ROHS
+R4,0402WGF4701TCE,C25900,TopLayer,402,28.575,7.747,180,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 4.7k? 0402 Chip Resistor - Surface Mount ROHS
+R3,0402WGF4701TCE,C25900,TopLayer,402,28.575,8.763,180,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 4.7k? 0402 Chip Resistor - Surface Mount ROHS
+R2,0402WGF1002TCE,C25744,TopLayer,402,28.695,15.8677,0,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 10k? 0402 Chip Resistor - Surface Mount ROHS
+R1,0402WGF3002TCE,C25776,TopLayer,402,5.842,10.668,90,±1% 1/16W Thick Film Resistors 50V ±100ppm/? -55?~+155? 30k? 0402 Chip Resistor - Surface Mount ROHS
 IC003,QMC5883L,C976032,TopLayer,LGA-16(3x3x0.9mm),9.151,5.969,0,LGA-16(3x3x0.9mm) Magnetic Sensors ROHS
 IC002,MPU-6050,C24112,TopLayer,QFN-24_EP_4.0x4.0x0.5P,26.416,11.938,180,QFN-24_4x4x05P Attitude Sensors ROHS
 D3,KT-0603W,C2290,TopLayer,LED_0603,25.527,7.493,0,White 0603 Light Emitting Diodes (LED) RoHS
 D2,KT-0603W,C2290,TopLayer,LED_0603,25.527,6.223,0,White 0603 Light Emitting Diodes (LED) RoHS
 D1,KT-0603W,C2290,TopLayer,LED_0603,25.527,4.953,0,White 0603 Light Emitting Diodes (LED) RoHS
-C10,CL05A106MQ5NUNC,C15525,TopLayer,0402,4.953,22.479,180,6.3V 10uF X5R ±20% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C9,CL05B104KO5NNNC,C1525,TopLayer,0402,12.072,6.731,270,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C8,CL05B224KO5NNNC,C16772,TopLayer,0402,11.818,4.826,0,16V 220nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C6,0402B222K500NT,C1531,TopLayer,0402,23.622,9.017,180,50V 2.2nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C5,CL05B104KO5NNNC,C1525,TopLayer,0402,23.4205,12.7111,270,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C4,CL05B103KB5NNNC,C15195,TopLayer,0402,28.956,14.732,0,50V 10nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
-C3,CL05B104KO5NNNC,C1525,TopLayer,0402,25.019,14.859,180,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C10,CL05A106MQ5NUNC,C15525,TopLayer,402,4.953,22.479,180,6.3V 10uF X5R ±20% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C9,CL05B104KO5NNNC,C1525,TopLayer,402,12.072,6.731,270,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C8,CL05B224KO5NNNC,C16772,TopLayer,402,11.818,4.826,0,16V 220nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C6,0402B222K500NT,C1531,TopLayer,402,23.622,9.017,180,50V 2.2nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C5,CL05B104KO5NNNC,C1525,TopLayer,402,23.4205,12.7111,270,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C4,CL05B103KB5NNNC,C15195,TopLayer,402,28.956,14.732,0,50V 10nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C3,CL05B104KO5NNNC,C1525,TopLayer,402,25.019,14.859,180,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
 C2,EEHZA1J220XP,C454662,TopLayer,CAP-SMD,18.755,11.811,0,"63V 22uF ±20% 7.7mm 80m?@100kHz 6.3mm 1.5A@100kHz -55?~+105? 10000hrs@105? SMD,6.3x7.7mm Solid Polymer Electrolytic Capacitor ROHS"
-C1,CL05B104KO5NNNC,C1525,TopLayer,0402,4.826,10.922,90,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+C1,CL05B104KO5NNNC,C1525,TopLayer,402,4.826,10.922,90,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS

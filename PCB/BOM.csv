@@ -1,0 +1,18 @@
+﻿Comment,Designator,Footprint,JLCPCB Part #,Description
+CL05B104KO5NNNC,"C1, C3, C5, C9, C11",0402,C1525,16V 100nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+CL05A106MQ5NUNC,C10,0402,C15525,6.3V 10uF X5R ±20% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+EEHZA1J220XV,C2,CAP-SMD,C454361,"63V 22uF ±20% 8mm 80mΩ@100kHz 6.3mm 1.5A@100kHz -55℃~+105℃ 10000hrs@105℃ SMD,6.3x8mm Solid Polymer Electrolytic Capacitor ROHS"
+CL05B103KB5NNNC,C4,0402,C15195,50V 10nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+0402B222K500NT,C6,0402,C1531,50V 2.2nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+CL05B224KO5NNNC,"C8, C12",0402,C16772,16V 220nF X7R ±10% 0402 Multilayer Ceramic Capacitors MLCC - SMD/SMT ROHS
+KT-0603W,"D1, D2, D3",LED_0603,C2290,White 0603 Light Emitting Diodes (LED) RoHS
+DRV8871DDAR,IC001,SOIC-8_3.9x4.9x1.27P,C75864,SO-8 Motor Driver ICs ROHS
+MPU-6050,IC002,QFN-24_EP_4.0x4.0x0.5P,C24112,QFN-24_4x4x05P Attitude Sensors ROHS
+QMC5883L,IC003,LGA-16(3x3x0.9mm),C976032,LGA-16(3x3x0.9mm) Magnetic Sensors ROHS
+0402WGF3002TCE,R1,0402,C25776,±1% 1/16W Thick Film Resistors 50V ±100ppm/℃ -55℃~+155℃ 30kΩ 0402 Chip Resistor - Surface Mount ROHS
+0402WGF1002TCE,R2,0402,C25744,±1% 1/16W Thick Film Resistors 50V ±200ppm/℃ -55℃~+155℃ 30.1Ω 0402 Chip Resistor - Surface Mount ROHS
+0402WGF4701TCE,"R3, R4",0402,C25900,±1% 1/16W Thick Film Resistors 50V ±100ppm/℃ -55℃~+155℃ 4.7kΩ 0402 Chip Resistor - Surface Mount ROHS
+0402WGF0000TCE,R5,0402,C17168,±1% 1/16W Thick Film Resistors 50V ±800ppm/℃ -55℃~+155℃ 0Ω 0402 Chip Resistor - Surface Mount ROHS
+0402WGF2201TCE,"R6, R7",0402,C25879,±1% 1/16W Thick Film Resistors 50V ±100ppm/℃ -55℃~+155℃ 2.2kΩ 0402 Chip Resistor - Surface Mount ROHS
+0402WGF301JTCE,"R8, R9, R10",0402,C67234,±1% 1/16W Thick Film Resistors 50V ±200ppm/℃ -55℃~+155℃ 30.1Ω 0402 Chip Resistor - Surface Mount ROHS
+B3U-1000P,"SW1, SW2",SW-SMD-2_2.5x3.0x1.6,C231329,"2.5mm 1.6mm Round Button 50mA Brick nogging 3mm SPST 12V SMD,2.5x3x1.6mm Tactile Switches ROHS"
