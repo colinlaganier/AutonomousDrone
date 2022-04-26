@@ -1,1 +1,3 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk -mmacosx-version-min=12.2 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/DroneClient.dir/main.cpp.o  -o DroneClient 
+"C:\Program Files\JetBrains\CLion 2021.3.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\DroneClient.dir/objects.a
+C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\ar.exe qc CMakeFiles\DroneClient.dir/objects.a @CMakeFiles\DroneClient.dir\objects1.rsp
+C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE -g -Wl,--whole-archive CMakeFiles\DroneClient.dir/objects.a -Wl,--no-whole-archive -o DroneClient.exe -Wl,--out-implib,libDroneClient.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\DroneClient.dir\linklibs.rsp

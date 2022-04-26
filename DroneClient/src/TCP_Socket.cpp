@@ -1,3 +1,6 @@
+//
+// Created by ColinLaganier on 25/04/2022.
+//
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,7 +9,6 @@
 #define PORT 8888
 #define TRUE 1
 #define FALSE 0
-
 int main(int argc, char const* argv[])
 {
     int sock = 0, valread;
@@ -22,7 +24,6 @@ int main(int argc, char const* argv[])
     serv_addr.sin_port = htons(PORT);
 
     // Convert IPv4 and IPv6 addresses from text to binary
-    // form
     if (inet_pton(AF_INET, "192.168.0.21", &serv_addr.sin_addr)<= 0) {
         printf("\nInvalid address/ Address not supported \n");
         return -1;

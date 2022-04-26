@@ -3,4 +3,6 @@ project(DroneClient)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(DroneClient main.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/inc)
+link_directories(${CMAKE_SOURCE_DIR}/lib)
+add_executable(DroneClient src/main.cpp src/UART.h src/UWB.cpp src/TCP_Socket.cpp src/Mavlink.cpp)

@@ -1,15 +1,17 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/colinlaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/main.cpp" "/Users/colinlaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles/DroneClient.dir/main.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Mavlink.cpp" "CMakeFiles/DroneClient.dir/src/Mavlink.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/Mavlink.cpp.obj.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/TCP_Socket.cpp" "CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.obj.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/UWB.cpp" "CMakeFiles/DroneClient.dir/src/UWB.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/UWB.cpp.obj.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/main.cpp" "CMakeFiles/DroneClient.dir/src/main.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/main.cpp.obj.d"
   )
 
 # Targets to which this target links.
