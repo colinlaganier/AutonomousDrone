@@ -128,6 +128,30 @@ DroneClient/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/build
 .PHONY : DroneClient/fast
 
+src/Drone.obj: src/Drone.cpp.obj
+.PHONY : src/Drone.obj
+
+# target to build an object file
+src/Drone.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Drone.cpp.obj
+.PHONY : src/Drone.cpp.obj
+
+src/Drone.i: src/Drone.cpp.i
+.PHONY : src/Drone.i
+
+# target to preprocess a source file
+src/Drone.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Drone.cpp.i
+.PHONY : src/Drone.cpp.i
+
+src/Drone.s: src/Drone.cpp.s
+.PHONY : src/Drone.s
+
+# target to generate assembly for a file
+src/Drone.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Drone.cpp.s
+.PHONY : src/Drone.cpp.s
+
 src/Mavlink.obj: src/Mavlink.cpp.obj
 .PHONY : src/Mavlink.obj
 
@@ -151,6 +175,30 @@ src/Mavlink.s: src/Mavlink.cpp.s
 src/Mavlink.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s
 .PHONY : src/Mavlink.cpp.s
+
+src/Socket.obj: src/Socket.cpp.obj
+.PHONY : src/Socket.obj
+
+# target to build an object file
+src/Socket.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Socket.cpp.obj
+.PHONY : src/Socket.cpp.obj
+
+src/Socket.i: src/Socket.cpp.i
+.PHONY : src/Socket.i
+
+# target to preprocess a source file
+src/Socket.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Socket.cpp.i
+.PHONY : src/Socket.cpp.i
+
+src/Socket.s: src/Socket.cpp.s
+.PHONY : src/Socket.s
+
+# target to generate assembly for a file
+src/Socket.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/Socket.cpp.s
+.PHONY : src/Socket.cpp.s
 
 src/TCP_Socket.obj: src/TCP_Socket.cpp.obj
 .PHONY : src/TCP_Socket.obj
@@ -200,6 +248,30 @@ src/UWB.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/UWB.cpp.s
 .PHONY : src/UWB.cpp.s
 
+src/dwm_api.obj: src/dwm_api.cpp.obj
+.PHONY : src/dwm_api.obj
+
+# target to build an object file
+src/dwm_api.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj
+.PHONY : src/dwm_api.cpp.obj
+
+src/dwm_api.i: src/dwm_api.cpp.i
+.PHONY : src/dwm_api.i
+
+# target to preprocess a source file
+src/dwm_api.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i
+.PHONY : src/dwm_api.cpp.i
+
+src/dwm_api.s: src/dwm_api.cpp.s
+.PHONY : src/dwm_api.s
+
+# target to generate assembly for a file
+src/dwm_api.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\DroneClient.dir\build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s
+.PHONY : src/dwm_api.cpp.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -233,15 +305,24 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... DroneClient
+	@echo ... src/Drone.obj
+	@echo ... src/Drone.i
+	@echo ... src/Drone.s
 	@echo ... src/Mavlink.obj
 	@echo ... src/Mavlink.i
 	@echo ... src/Mavlink.s
+	@echo ... src/Socket.obj
+	@echo ... src/Socket.i
+	@echo ... src/Socket.s
 	@echo ... src/TCP_Socket.obj
 	@echo ... src/TCP_Socket.i
 	@echo ... src/TCP_Socket.s
 	@echo ... src/UWB.obj
 	@echo ... src/UWB.i
 	@echo ... src/UWB.s
+	@echo ... src/dwm_api.obj
+	@echo ... src/dwm_api.i
+	@echo ... src/dwm_api.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

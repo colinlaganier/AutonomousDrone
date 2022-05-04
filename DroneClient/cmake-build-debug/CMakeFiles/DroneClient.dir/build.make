@@ -128,12 +128,60 @@ CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s"
 	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Mavlink.cpp -o CMakeFiles\DroneClient.dir\src\Mavlink.cpp.s
 
+CMakeFiles/DroneClient.dir/src/Drone.cpp.obj: CMakeFiles/DroneClient.dir/flags.make
+CMakeFiles/DroneClient.dir/src/Drone.cpp.obj: CMakeFiles/DroneClient.dir/includes_CXX.rsp
+CMakeFiles/DroneClient.dir/src/Drone.cpp.obj: ../src/Drone.cpp
+CMakeFiles/DroneClient.dir/src/Drone.cpp.obj: CMakeFiles/DroneClient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DroneClient.dir/src/Drone.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/Drone.cpp.obj -MF CMakeFiles\DroneClient.dir\src\Drone.cpp.obj.d -o CMakeFiles\DroneClient.dir\src\Drone.cpp.obj -c C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Drone.cpp
+
+CMakeFiles/DroneClient.dir/src/Drone.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/Drone.cpp.i"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Drone.cpp > CMakeFiles\DroneClient.dir\src\Drone.cpp.i
+
+CMakeFiles/DroneClient.dir/src/Drone.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/Drone.cpp.s"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Drone.cpp -o CMakeFiles\DroneClient.dir\src\Drone.cpp.s
+
+CMakeFiles/DroneClient.dir/src/Socket.cpp.obj: CMakeFiles/DroneClient.dir/flags.make
+CMakeFiles/DroneClient.dir/src/Socket.cpp.obj: CMakeFiles/DroneClient.dir/includes_CXX.rsp
+CMakeFiles/DroneClient.dir/src/Socket.cpp.obj: ../src/Socket.cpp
+CMakeFiles/DroneClient.dir/src/Socket.cpp.obj: CMakeFiles/DroneClient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DroneClient.dir/src/Socket.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/Socket.cpp.obj -MF CMakeFiles\DroneClient.dir\src\Socket.cpp.obj.d -o CMakeFiles\DroneClient.dir\src\Socket.cpp.obj -c C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Socket.cpp
+
+CMakeFiles/DroneClient.dir/src/Socket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/Socket.cpp.i"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Socket.cpp > CMakeFiles\DroneClient.dir\src\Socket.cpp.i
+
+CMakeFiles/DroneClient.dir/src/Socket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/Socket.cpp.s"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\Socket.cpp -o CMakeFiles\DroneClient.dir\src\Socket.cpp.s
+
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj: CMakeFiles/DroneClient.dir/flags.make
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj: CMakeFiles/DroneClient.dir/includes_CXX.rsp
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj: ../src/dwm_api.cpp
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj: CMakeFiles/DroneClient.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj -MF CMakeFiles\DroneClient.dir\src\dwm_api.cpp.obj.d -o CMakeFiles\DroneClient.dir\src\dwm_api.cpp.obj -c C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\dwm_api.cpp
+
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\dwm_api.cpp > CMakeFiles\DroneClient.dir\src\dwm_api.cpp.i
+
+CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\src\dwm_api.cpp -o CMakeFiles\DroneClient.dir\src\dwm_api.cpp.s
+
 # Object files for target DroneClient
 DroneClient_OBJECTS = \
 "CMakeFiles/DroneClient.dir/src/main.cpp.obj" \
 "CMakeFiles/DroneClient.dir/src/UWB.cpp.obj" \
 "CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.obj" \
-"CMakeFiles/DroneClient.dir/src/Mavlink.cpp.obj"
+"CMakeFiles/DroneClient.dir/src/Mavlink.cpp.obj" \
+"CMakeFiles/DroneClient.dir/src/Drone.cpp.obj" \
+"CMakeFiles/DroneClient.dir/src/Socket.cpp.obj" \
+"CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj"
 
 # External object files for target DroneClient
 DroneClient_EXTERNAL_OBJECTS =
@@ -142,11 +190,14 @@ DroneClient.exe: CMakeFiles/DroneClient.dir/src/main.cpp.obj
 DroneClient.exe: CMakeFiles/DroneClient.dir/src/UWB.cpp.obj
 DroneClient.exe: CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.obj
 DroneClient.exe: CMakeFiles/DroneClient.dir/src/Mavlink.cpp.obj
+DroneClient.exe: CMakeFiles/DroneClient.dir/src/Drone.cpp.obj
+DroneClient.exe: CMakeFiles/DroneClient.dir/src/Socket.cpp.obj
+DroneClient.exe: CMakeFiles/DroneClient.dir/src/dwm_api.cpp.obj
 DroneClient.exe: CMakeFiles/DroneClient.dir/build.make
 DroneClient.exe: CMakeFiles/DroneClient.dir/linklibs.rsp
 DroneClient.exe: CMakeFiles/DroneClient.dir/objects1.rsp
 DroneClient.exe: CMakeFiles/DroneClient.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable DroneClient.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\ColinLaganier\Documents\Imperial\Thesis\AutonomousDrone\DroneClient\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable DroneClient.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\DroneClient.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

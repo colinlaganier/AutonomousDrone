@@ -14,9 +14,17 @@
 #include <iostream>
 #include <cstdlib>
 #include <signal.h>
+#include "config.h"
+#include "Drone.h"
+#include "Socket.h"
 
 int main(void)
 {
 
+    Socket *server_socket = new Socket(AF_INET, SOCK_STREAM,);
     return 0;
+}
+
+bool parseINI(){
+    return true;
 }

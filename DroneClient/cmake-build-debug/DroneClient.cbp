@@ -84,7 +84,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Drone.cpp">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Drone.h">
+			<Option target="DroneClient"/>
+		</Unit>
 		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Mavlink.cpp">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Socket.cpp">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Socket.h">
 			<Option target="DroneClient"/>
 		</Unit>
 		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/TCP_Socket.cpp">
@@ -94,6 +106,15 @@
 			<Option target="DroneClient"/>
 		</Unit>
 		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/UWB.cpp">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/config.h">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/dwm_api.cpp">
+			<Option target="DroneClient"/>
+		</Unit>
+		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/dwm_api.h">
 			<Option target="DroneClient"/>
 		</Unit>
 		<Unit filename="C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/main.cpp">
