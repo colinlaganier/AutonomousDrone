@@ -2,10 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "DroneClient.exe"
-		},
-		{
-			"path" : "DroneClient.pdb"
+			"path" : "DroneClient"
 		}
 	],
 	"backtrace" : 1,
@@ -62,7 +59,7 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/inc"
+					"path" : "/home/ubuntu/Documents/AutonomousDrone/DroneClient/inc"
 				}
 			],
 			"language" : "CXX",
@@ -101,18 +98,14 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-LC:\\Users\\ColinLaganier\\Documents\\Imperial\\Thesis\\AutonomousDrone\\DroneClient\\lib",
+				"fragment" : "-L/home/ubuntu/Documents/AutonomousDrone/DroneClient/lib",
 				"role" : "libraryPath"
-			},
-			{
-				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
-				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "DroneClient",
-	"nameOnDisk" : "DroneClient.exe",
+	"nameOnDisk" : "DroneClient",
 	"paths" : 
 	{
 		"build" : ".",
