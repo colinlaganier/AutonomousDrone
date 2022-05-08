@@ -4,19 +4,9 @@
 
 #include "Socket.h"
 
-//
-//  Socket.cpp
-//  SocketServer
-//
-//  Created by Kay Makowsky on 15.06.16.
-//  Copyright © 2016 Kay Makowsky. All rights reserved.
-//
-
-#include "Socket.h"
-
 Socket::Socket(){
-
 }
+
 Socket::Socket(int domain, int type, int protocol)
 {
     memset(&address_info, 0, sizeof address_info);

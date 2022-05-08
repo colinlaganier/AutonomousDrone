@@ -83,52 +83,10 @@ CMakeFiles/DroneClient.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/main.cpp -o CMakeFiles/DroneClient.dir/src/main.cpp.s
 
-CMakeFiles/DroneClient.dir/src/UWB.cpp.o: CMakeFiles/DroneClient.dir/flags.make
-CMakeFiles/DroneClient.dir/src/UWB.cpp.o: ../src/UWB.cpp
-CMakeFiles/DroneClient.dir/src/UWB.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/DroneClient.dir/src/UWB.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/UWB.cpp.o -MF CMakeFiles/DroneClient.dir/src/UWB.cpp.o.d -o CMakeFiles/DroneClient.dir/src/UWB.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/UWB.cpp
-
-CMakeFiles/DroneClient.dir/src/UWB.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/UWB.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/UWB.cpp > CMakeFiles/DroneClient.dir/src/UWB.cpp.i
-
-CMakeFiles/DroneClient.dir/src/UWB.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/UWB.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/UWB.cpp -o CMakeFiles/DroneClient.dir/src/UWB.cpp.s
-
-CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o: CMakeFiles/DroneClient.dir/flags.make
-CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o: ../src/TCP_Socket.cpp
-CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o -MF CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o.d -o CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/TCP_Socket.cpp
-
-CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/TCP_Socket.cpp > CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.i
-
-CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/TCP_Socket.cpp -o CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.s
-
-CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o: CMakeFiles/DroneClient.dir/flags.make
-CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o: ../src/Mavlink.cpp
-CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o -MF CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o.d -o CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Mavlink.cpp
-
-CMakeFiles/DroneClient.dir/src/Mavlink.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/Mavlink.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Mavlink.cpp > CMakeFiles/DroneClient.dir/src/Mavlink.cpp.i
-
-CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Mavlink.cpp -o CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s
-
 CMakeFiles/DroneClient.dir/src/Drone.cpp.o: CMakeFiles/DroneClient.dir/flags.make
 CMakeFiles/DroneClient.dir/src/Drone.cpp.o: ../src/Drone.cpp
 CMakeFiles/DroneClient.dir/src/Drone.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/DroneClient.dir/src/Drone.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/DroneClient.dir/src/Drone.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/Drone.cpp.o -MF CMakeFiles/DroneClient.dir/src/Drone.cpp.o.d -o CMakeFiles/DroneClient.dir/src/Drone.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Drone.cpp
 
 CMakeFiles/DroneClient.dir/src/Drone.cpp.i: cmake_force
@@ -142,7 +100,7 @@ CMakeFiles/DroneClient.dir/src/Drone.cpp.s: cmake_force
 CMakeFiles/DroneClient.dir/src/Socket.cpp.o: CMakeFiles/DroneClient.dir/flags.make
 CMakeFiles/DroneClient.dir/src/Socket.cpp.o: ../src/Socket.cpp
 CMakeFiles/DroneClient.dir/src/Socket.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/DroneClient.dir/src/Socket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/DroneClient.dir/src/Socket.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/Socket.cpp.o -MF CMakeFiles/DroneClient.dir/src/Socket.cpp.o.d -o CMakeFiles/DroneClient.dir/src/Socket.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Socket.cpp
 
 CMakeFiles/DroneClient.dir/src/Socket.cpp.i: cmake_force
@@ -153,43 +111,21 @@ CMakeFiles/DroneClient.dir/src/Socket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/Socket.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Socket.cpp -o CMakeFiles/DroneClient.dir/src/Socket.cpp.s
 
-CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o: CMakeFiles/DroneClient.dir/flags.make
-CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o: ../src/dwm_api.cpp
-CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o: CMakeFiles/DroneClient.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o -MF CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o.d -o CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/dwm_api.cpp
-
-CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/dwm_api.cpp > CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i
-
-CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Documents/AutonomousDrone/DroneClient/src/dwm_api.cpp -o CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s
-
 # Object files for target DroneClient
 DroneClient_OBJECTS = \
 "CMakeFiles/DroneClient.dir/src/main.cpp.o" \
-"CMakeFiles/DroneClient.dir/src/UWB.cpp.o" \
-"CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o" \
-"CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o" \
 "CMakeFiles/DroneClient.dir/src/Drone.cpp.o" \
-"CMakeFiles/DroneClient.dir/src/Socket.cpp.o" \
-"CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o"
+"CMakeFiles/DroneClient.dir/src/Socket.cpp.o"
 
 # External object files for target DroneClient
 DroneClient_EXTERNAL_OBJECTS =
 
 DroneClient: CMakeFiles/DroneClient.dir/src/main.cpp.o
-DroneClient: CMakeFiles/DroneClient.dir/src/UWB.cpp.o
-DroneClient: CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o
-DroneClient: CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o
 DroneClient: CMakeFiles/DroneClient.dir/src/Drone.cpp.o
 DroneClient: CMakeFiles/DroneClient.dir/src/Socket.cpp.o
-DroneClient: CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o
 DroneClient: CMakeFiles/DroneClient.dir/build.make
 DroneClient: CMakeFiles/DroneClient.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable DroneClient"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable DroneClient"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DroneClient.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

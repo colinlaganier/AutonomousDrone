@@ -92,31 +92,10 @@
 		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Drone.h">
 			<Option target="DroneClient"/>
 		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Mavlink.cpp">
-			<Option target="DroneClient"/>
-		</Unit>
 		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Socket.cpp">
 			<Option target="DroneClient"/>
 		</Unit>
 		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Socket.h">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/TCP_Socket.cpp">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/UART.h">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/UWB.cpp">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/config.h">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/dwm_api.cpp">
-			<Option target="DroneClient"/>
-		</Unit>
-		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/dwm_api.h">
 			<Option target="DroneClient"/>
 		</Unit>
 		<Unit filename="/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/main.cpp">

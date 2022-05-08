@@ -1,17 +1,70 @@
-//
-// Created by ColinLaganier on 27/04/2022.
-//
+/**
+  **********************************************************************************
+  * @file     Drone.h
+  * @author   Colin Laganier
+  * @version  V0.1
+  * @date     2022-04-27
+  * @brief   This file contains the header information for the drone.
+  **********************************************************************************
+  * @attention  Requires INIReader library to parse config file & MAVLink library for
+  *             Ardupilot communication.
+  */
 
 #ifndef DRONECLIENT_DRONE_H
 #define DRONECLIENT_DRONE_H
 
+#include <string>
+#include <iostream>
+#include "sstream"
+#include "INIReader.h"
 
-class Drone {
+struct Sensors {
+    bool uwb;
+    bool imu;
+    bool fc;
+    bool tcp;
+};
+
+typedef enum {
+    SETUP,
+    DISARMED,
+    STATIONARY,
+    GUIDED,
+    LANDING
+} DRONE_STATE;
+
+class Drone{
 public:
 
-    int id;
-
+//    Public Constructor
     Drone();
+    virtual ~Drone();
+
+//    Public Variables
+    DRONE_STATE state = SETUP;
+    std::string config_file;
+    int drone_id;
+    std::string drone_port;
+    std::string drone_ip;
+    std::string server_ip;
+    int *position;        //position coordinates: x,y,z
+    struct Sensors *sensor_status;
+
+//  Public Methods
+    bool get_info(std::string file_name);
+    void get_status();
+    void setup_uwb();
+    void setup_imu();
+
+    void toggle_sensor_imu();
+    void toggle_sensor_uwb();
+    void toggle_sensor_tcp();
+    void toggle_sensor_fc();
+
+private:
+    static std::string ini_sections(INIReader &reader);
+    void verify_data();
+
 };
 
 

@@ -153,30 +153,6 @@ src/Drone.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/Drone.cpp.s
 .PHONY : src/Drone.cpp.s
 
-src/Mavlink.o: src/Mavlink.cpp.o
-.PHONY : src/Mavlink.o
-
-# target to build an object file
-src/Mavlink.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/Mavlink.cpp.o
-.PHONY : src/Mavlink.cpp.o
-
-src/Mavlink.i: src/Mavlink.cpp.i
-.PHONY : src/Mavlink.i
-
-# target to preprocess a source file
-src/Mavlink.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/Mavlink.cpp.i
-.PHONY : src/Mavlink.cpp.i
-
-src/Mavlink.s: src/Mavlink.cpp.s
-.PHONY : src/Mavlink.s
-
-# target to generate assembly for a file
-src/Mavlink.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/Mavlink.cpp.s
-.PHONY : src/Mavlink.cpp.s
-
 src/Socket.o: src/Socket.cpp.o
 .PHONY : src/Socket.o
 
@@ -200,78 +176,6 @@ src/Socket.s: src/Socket.cpp.s
 src/Socket.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/Socket.cpp.s
 .PHONY : src/Socket.cpp.s
-
-src/TCP_Socket.o: src/TCP_Socket.cpp.o
-.PHONY : src/TCP_Socket.o
-
-# target to build an object file
-src/TCP_Socket.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.o
-.PHONY : src/TCP_Socket.cpp.o
-
-src/TCP_Socket.i: src/TCP_Socket.cpp.i
-.PHONY : src/TCP_Socket.i
-
-# target to preprocess a source file
-src/TCP_Socket.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.i
-.PHONY : src/TCP_Socket.cpp.i
-
-src/TCP_Socket.s: src/TCP_Socket.cpp.s
-.PHONY : src/TCP_Socket.s
-
-# target to generate assembly for a file
-src/TCP_Socket.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/TCP_Socket.cpp.s
-.PHONY : src/TCP_Socket.cpp.s
-
-src/UWB.o: src/UWB.cpp.o
-.PHONY : src/UWB.o
-
-# target to build an object file
-src/UWB.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/UWB.cpp.o
-.PHONY : src/UWB.cpp.o
-
-src/UWB.i: src/UWB.cpp.i
-.PHONY : src/UWB.i
-
-# target to preprocess a source file
-src/UWB.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/UWB.cpp.i
-.PHONY : src/UWB.cpp.i
-
-src/UWB.s: src/UWB.cpp.s
-.PHONY : src/UWB.s
-
-# target to generate assembly for a file
-src/UWB.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/UWB.cpp.s
-.PHONY : src/UWB.cpp.s
-
-src/dwm_api.o: src/dwm_api.cpp.o
-.PHONY : src/dwm_api.o
-
-# target to build an object file
-src/dwm_api.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.o
-.PHONY : src/dwm_api.cpp.o
-
-src/dwm_api.i: src/dwm_api.cpp.i
-.PHONY : src/dwm_api.i
-
-# target to preprocess a source file
-src/dwm_api.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.i
-.PHONY : src/dwm_api.cpp.i
-
-src/dwm_api.s: src/dwm_api.cpp.s
-.PHONY : src/dwm_api.s
-
-# target to generate assembly for a file
-src/dwm_api.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/DroneClient.dir/build.make CMakeFiles/DroneClient.dir/src/dwm_api.cpp.s
-.PHONY : src/dwm_api.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -309,21 +213,9 @@ help:
 	@echo "... src/Drone.o"
 	@echo "... src/Drone.i"
 	@echo "... src/Drone.s"
-	@echo "... src/Mavlink.o"
-	@echo "... src/Mavlink.i"
-	@echo "... src/Mavlink.s"
 	@echo "... src/Socket.o"
 	@echo "... src/Socket.i"
 	@echo "... src/Socket.s"
-	@echo "... src/TCP_Socket.o"
-	@echo "... src/TCP_Socket.i"
-	@echo "... src/TCP_Socket.s"
-	@echo "... src/UWB.o"
-	@echo "... src/UWB.i"
-	@echo "... src/UWB.s"
-	@echo "... src/dwm_api.o"
-	@echo "... src/dwm_api.i"
-	@echo "... src/dwm_api.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
