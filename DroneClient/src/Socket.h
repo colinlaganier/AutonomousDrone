@@ -22,6 +22,10 @@
 
 using namespace std;
 
+typedef enum {
+
+} TCP_MESSAGE;
+
 class Socket
 {
 public:
