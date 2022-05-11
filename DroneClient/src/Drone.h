@@ -44,11 +44,12 @@ public:
     DRONE_STATE state = SETUP;
     std::string config_file;
     int drone_id;
-    std::string drone_port;
+    int drone_port;
     std::string drone_ip;
     std::string server_ip;
     int *position;        //position coordinates: x,y,z
-    struct Sensors *sensor_status;
+    Sensors drone_sensor = { false, false, false, false };
+    Sensors *sensor_status = &drone_sensor;
 
 //  Public Methods
     bool get_info(std::string file_name);

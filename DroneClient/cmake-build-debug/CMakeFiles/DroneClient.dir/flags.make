@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/ubuntu/Documents/AutonomousDrone/DroneClient/inc
 
-CXX_FLAGS = -g -std=gnu++14
+CXX_FLAGS = -g -pthread -std=gnu++14
 

@@ -51,11 +51,11 @@ bool Drone::get_info(std::string file_name)
         return false;
     }
 
-    std::cout << "Config loaded from "<< file_name << ": found sections=" << ini_sections(reader);
+    std::cout << "Config loaded from "<< file_name << ": found sections=" << ini_sections(reader) << "\n";
 
 //    Assign values to variables from config file
     drone_id = reader.GetInteger("drone", "drone_id", 0);
-    drone_port = reader.Get("drone","drone_port", "0");
+    drone_port = reader.GetInteger("drone","drone_port", 0);
     drone_ip = reader.Get("drone", "drone_ip", "0");
     server_ip = reader.Get("server","server_ip","0");
     position = new int[3] {static_cast<int>(reader.GetInteger("drone", "longitude",0)),static_cast<int>(reader.GetInteger("drone", "latitude",0)),static_cast<int>(reader.GetInteger("drone", "altitude",0))};

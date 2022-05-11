@@ -443,3 +443,17 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_af5a5/fast && /usr/bin/make  -f CMakeFiles/cmTC_af5a5.dir/build.make CMakeFiles/cmTC_af5a5.dir/build
+make[1]: Entering directory '/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_af5a5.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_af5a5.dir/CheckIncludeFile.c.o -c /home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_af5a5
+/snap/clion/189/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_af5a5.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_af5a5.dir/CheckIncludeFile.c.o -o cmTC_af5a5 
+make[1]: Leaving directory '/home/ubuntu/Documents/AutonomousDrone/DroneClient/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
