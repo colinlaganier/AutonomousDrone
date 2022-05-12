@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "DroneClient"
+			"path" : "DroneClient.exe"
+		},
+		{
+			"path" : "DroneClient.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -12,7 +15,6 @@
 		[
 			"add_executable",
 			"link_directories",
-			"target_link_libraries",
 			"include_directories"
 		],
 		"files" : 
@@ -39,12 +41,6 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 14,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 0,
 				"line" : 6,
 				"parent" : 0
 			}
@@ -59,18 +55,14 @@
 					"fragment" : "-g"
 				},
 				{
-					"backtrace" : 3,
-					"fragment" : "-pthread"
-				},
-				{
 					"fragment" : "-std=gnu++14"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
-					"path" : "/home/ubuntu/Documents/AutonomousDrone/DroneClient/inc"
+					"backtrace" : 3,
+					"path" : "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/inc"
 				}
 			],
 			"language" : "CXX",
@@ -105,22 +97,18 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-L/home/ubuntu/Documents/AutonomousDrone/DroneClient/lib",
+				"fragment" : "-LC:\\Users\\ColinLaganier\\Documents\\Imperial\\Thesis\\AutonomousDrone\\DroneClient\\lib",
 				"role" : "libraryPath"
 			},
 			{
-				"fragment" : "-Wl,-rpath,/home/ubuntu/Documents/AutonomousDrone/DroneClient/lib",
-				"role" : "libraries"
-			},
-			{
-				"fragment" : "-pthread",
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "DroneClient",
-	"nameOnDisk" : "DroneClient",
+	"nameOnDisk" : "DroneClient.exe",
 	"paths" : 
 	{
 		"build" : ".",

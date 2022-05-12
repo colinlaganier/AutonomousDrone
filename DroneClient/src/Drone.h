@@ -17,6 +17,9 @@
 #include <iostream>
 #include "sstream"
 #include "INIReader.h"
+#include <wiringPi/wiringPi.h>
+#include <wiringPi/wiringSerial.h>
+#include <mavlink/ardupilotmega/mavlink.h>
 
 struct Sensors {
     bool uwb;
@@ -48,8 +51,12 @@ public:
     std::string drone_ip;
     std::string server_ip;
     int *position;        //position coordinates: x,y,z
+    int pump_pwm;
     Sensors drone_sensor = { false, false, false, false };
     Sensors *sensor_status = &drone_sensor;
+
+//  Public MAVLINK Variables
+    int serial;
 
 //  Public Methods
     bool get_info(std::string file_name);
@@ -61,6 +68,16 @@ public:
     void toggle_sensor_uwb();
     void toggle_sensor_tcp();
     void toggle_sensor_fc();
+
+    int setup_serial(int *serial);
+    void setup_mavlink();
+    void mavlink_request_data();
+    void mavlink_receive_date();
+
+
+    void toggle_pump();
+    bool identify_table();
+
 
 private:
     static std::string ini_sections(INIReader &reader);

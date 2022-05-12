@@ -8,9 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Drone.cpp" "CMakeFiles/DroneClient.dir/src/Drone.cpp.o" "gcc" "CMakeFiles/DroneClient.dir/src/Drone.cpp.o.d"
-  "/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/Socket.cpp" "CMakeFiles/DroneClient.dir/src/Socket.cpp.o" "gcc" "CMakeFiles/DroneClient.dir/src/Socket.cpp.o.d"
-  "/home/ubuntu/Documents/AutonomousDrone/DroneClient/src/main.cpp" "CMakeFiles/DroneClient.dir/src/main.cpp.o" "gcc" "CMakeFiles/DroneClient.dir/src/main.cpp.o.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Drone.cpp" "CMakeFiles/DroneClient.dir/src/Drone.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/Drone.cpp.obj.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/Socket.cpp" "CMakeFiles/DroneClient.dir/src/Socket.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/Socket.cpp.obj.d"
+  "C:/Users/ColinLaganier/Documents/Imperial/Thesis/AutonomousDrone/DroneClient/src/main.cpp" "CMakeFiles/DroneClient.dir/src/main.cpp.obj" "gcc" "CMakeFiles/DroneClient.dir/src/main.cpp.obj.d"
   )
 
 # Targets to which this target links.
