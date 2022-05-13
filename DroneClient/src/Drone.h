@@ -19,7 +19,9 @@
 #include "INIReader.h"
 #include <wiringPi/wiringPi.h>
 #include <wiringPi/wiringSerial.h>
-#include <mavlink/ardupilotmega/mavlink.h>
+#include "mavlink/ardupilotmega/mavlink.h"
+#include "common/mavlink_msg_request_data_stream.h"
+
 
 struct Sensors {
     bool uwb;
@@ -57,24 +59,32 @@ public:
 
 //  Public MAVLINK Variables
     int serial;
+    unsigned long previousMillisMAVLink = 0;     // will store last time MAVLink was transmitted and listened
+    unsigned long next_interval_MAVLink = 1000;  // next interval to count
+    const int setup_hbs = 60;                      // number of heartbeats to wait before activating STREAMS
+    int number_hbs = setup_hbs;
 
 //  Public Methods
+//  Drone Data Methods
     bool get_info(std::string file_name);
     void get_status();
+
+//  Sensor Methods
     void setup_uwb();
     void setup_imu();
-
     void toggle_sensor_imu();
     void toggle_sensor_uwb();
     void toggle_sensor_tcp();
     void toggle_sensor_fc();
 
+//  Serial Mavlink Methods
     int setup_serial(int *serial);
-    void setup_mavlink();
-    void mavlink_request_data();
-    void mavlink_receive_date();
+    void mavlink_setup();
+    void mavlink_heartbeat();
+    void mavlink_request_data(int *serial);
+    void mavlink_receive_data(int *serial);
 
-
+//  Hardware Methods
     void toggle_pump();
     bool identify_table();
 

@@ -195,18 +195,13 @@ void loop() {
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
     // Pack the message
-    //mavlink_msg_heartbeat_pack(sysid,compid, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
     mavlink_msg_heartbeat_pack(1,0, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
 
     // Copy the message to the send buffer
     uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
 
-    // Send the message with the standard UART send function
-    // uart0_send might be named differently depending on
-    // the individual microcontroller / library in use.
     unsigned long currentMillisMAVLink = millis();
     if (currentMillisMAVLink - previousMillisMAVLink >= next_interval_MAVLink) {
-        // Guardamos la última vez que se cambió el modo
         previousMillisMAVLink = currentMillisMAVLink;
 
 #ifdef SOFT_SERIAL_DEBUGGING

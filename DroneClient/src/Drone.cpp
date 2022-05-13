@@ -106,11 +106,38 @@ int Drone::setup_serial(int *serial) {
     }
 }
 
-void Drone::setup_mavlink() {
+void Drone::mavlink_setup() {
+
 
 }
 
-void mavlink_request_data(int *serial) {
+void Drone::mavlink_heartbeat() {
+    int sysid = 1;                   ///< ID 20 for this airplane. 1 PX, 255 ground station
+    int compid = 158;                ///< The component sending the message
+    int type = MAV_TYPE_QUADROTOR;   ///< This system is an airplane / fixed wing
+
+    uint8_t system_type = MAV_TYPE_GENERIC;
+    uint8_t autopilot_type = MAV_AUTOPILOT_INVALID;
+
+    uint8_t system_mode = MAV_MODE_PREFLIGHT; ///< Booting up
+    uint32_t custom_mode = 0;                 ///< Custom mode, can be defined by user/adopter
+    uint8_t system_state = MAV_STATE_STANDBY; ///< System ready for flight
+    // Initialize the required buffers
+    mavlink_message_t msg;
+    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+
+    mavlink_msg_heartbeat_pack(1, 0, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
+
+    // Copy the message to the buffer
+    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+
+    unsigned long currentMillisMAVLink = millis();
+    if (currentMillisMAVLink - previousMillisMAVLink >= next_interval_MAVLink) {
+        previousMillisMAVLink = currentMillisMAVLink;
+    }
+}
+
+void Drone::mavlink_request_data(int *serial) {
     mavlink_message_t msg;
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
@@ -127,10 +154,6 @@ void mavlink_request_data(int *serial) {
      * MAV_DATA_STREAM_EXTRA2=11, /* Dependent on the autopilot
      * MAV_DATA_STREAM_EXTRA3=12, /* Dependent on the autopilot
      * MAV_DATA_STREAM_ENUM_END=13,
-     *
-     * Data in PixHawk available in:
-     *  - Battery, amperage and voltage (SYS_STATUS) in MAV_DATA_STREAM_EXTENDED_STATUS
-     *  - Gyro info (IMU_SCALED) in MAV_DATA_STREAM_EXTRA1
      */
 
     // To be setup according to the needed information to be requested from the Pixhawk
@@ -160,34 +183,25 @@ void mavlink_request_data(int *serial) {
     }
 }
 
-void mavlink_receive_data(int *serial) {
+void Drone::mavlink_receive_data(int *serial) {
 
     mavlink_message_t msg;
     mavlink_status_t status;
 
-    // Echo for manual debugging
-    // Serial.println("---Start---");
-
-#ifdef SOFT_SERIAL_DEBUGGING
-    while(pxSerial.available()>0) {
-        uint8_t c = pxSerial.read();
-#else
     while(serialDataAvail(*serial)) {
-        uint8_t c = Serial.read();
-#endif
+        uint8_t c = serialGetchar(*serial);
 
-        // Try to get a new message
+        std::cout << c << '\n';
+
         if(mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
 
             // Handle message
             switch(msg.msgid) {
                 case MAVLINK_MSG_ID_HEARTBEAT:  // #0: Heartbeat
                 {
-                    // E.g. read GCS heartbeat and go into
-                    // comm lost mode if timer times out
-#ifdef SOFT_SERIAL_DEBUGGING
-                    //mySerial.println("PX HB");
-#endif
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Ardupilot Heartbeat\n";
+//#endif
                 }
                     break;
 
@@ -199,16 +213,10 @@ void mavlink_receive_data(int *serial) {
                     //mavlink_message_t* msg;
                     mavlink_sys_status_t sys_status;
                     mavlink_msg_sys_status_decode(&msg, &sys_status);
-#ifdef SOFT_SERIAL_DEBUGGING
-                    mySerial.print("PX SYS STATUS: ");
-                    mySerial.print("[Bat (V): ");
-                    mySerial.print(sys_status.voltage_battery);
-                    mySerial.print("], [Bat (A): ");
-                    mySerial.print(sys_status.current_battery);
-                    mySerial.print("], [Comms loss (%): ");
-                    mySerial.print(sys_status.drop_rate_comm);
-                    mySerial.println("]");
-#endif
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Battery voltage: " << sys_status.voltage_battery << "; current: "
+                    << sys_status.current_battery << "; comm loss: " << sys_status.drop_rate_comm << "\n";
+//#endif
                 }
                     break;
 
@@ -220,15 +228,11 @@ void mavlink_receive_data(int *serial) {
                     //mavlink_message_t* msg;
                     mavlink_param_value_t param_value;
                     mavlink_msg_param_value_decode(&msg, &param_value);
-#ifdef SOFT_SERIAL_DEBUGGING
-                    mySerial.println("PX PARAM_VALUE");
-                    mySerial.println(param_value.param_value);
-                    mySerial.println(param_value.param_count);
-                    mySerial.println(param_value.param_index);
-                    mySerial.println(param_value.param_id);
-                    mySerial.println(param_value.param_type);
-                    mySerial.println("------ Fin -------");
-#endif
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Param values: " << param_value.param_value << "; count: " << param_value.param_count
+                    << "; index: " << param_value.param_index  << "; id: " << param_value.param_id << "; type:  "
+                    <<param_value.param_type << "\n";
+//#endif
                 }
                     break;
 
@@ -239,10 +243,9 @@ void mavlink_receive_data(int *serial) {
                      */
                     mavlink_raw_imu_t raw_imu;
                     mavlink_msg_raw_imu_decode(&msg, &raw_imu);
-#ifdef SOFT_SERIAL_DEBUGGING
-                    //mySerial.println("PX RAW IMU");
-                    //mySerial.println(raw_imu.xacc);
-#endif
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Raw IMU: " << raw_imu.xacc << "\n";
+//#endif
                 }
                     break;
 
@@ -253,26 +256,14 @@ void mavlink_receive_data(int *serial) {
                      */
                     mavlink_attitude_t attitude;
                     mavlink_msg_attitude_decode(&msg, &attitude);
-#ifdef SOFT_SERIAL_DEBUGGING
-                    //mySerial.println("PX ATTITUDE");
-                    //mySerial.println(attitude.roll);
-                    if(attitude.roll>1) leds_modo = 0;
-                    else if(attitude.roll<-1) leds_modo = 2;
-                    else leds_modo=1;
-#endif
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Attitude: " << atttude.roll << "\n"
+
+//#endif
                 }
                     break;
 
-
                 default:
-#ifdef SOFT_SERIAL_DEBUGGING
-                    mySerial.print("--- Otros: ");
-                    mySerial.print("[ID: ");
-                    mySerial.print(msg.msgid);
-                    mySerial.print("], [seq: ");
-                    mySerial.print(msg.seq);
-                    mySerial.println("]");
-#endif
                     break;
             }
         }
@@ -293,4 +284,3 @@ void Drone::get_status() {
     std::cout << "tcp: " << ((sensor_status->tcp) ? "on\n" : "off\n");
     std::cout << "fc: " << ((sensor_status->fc) ? "on\n" : "off\n");
 }
-
