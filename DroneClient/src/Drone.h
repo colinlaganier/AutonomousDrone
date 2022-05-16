@@ -6,8 +6,8 @@
   * @date     2022-04-27
   * @brief   This file contains the header information for the drone.
   **********************************************************************************
-  * @attention  Requires INIReader library to parse config file & MAVLink library for
-  *             Ardupilot communication.
+  * @attention  Requires INIReader library to parse config file, MAVLink library for
+  *             Ardupilot communication & WiringPi for hardware communication.
   */
 
 #ifndef DRONECLIENT_DRONE_H
