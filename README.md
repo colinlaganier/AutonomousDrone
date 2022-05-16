@@ -18,6 +18,8 @@ The drone is built upon the Diatone Taycan C25 MK2 frame, with 2004 BetaFPV brus
 * Acrylic Raspberry Pi Zero support.
 * PLA legs.  
 
+The control software is running on a Raspberry Pi Zero 2 W running Debian on each drone, connected to a central PC running Ubuntu 16.04 using a TCP/IP communication.  
+
 ## PCB
 
 <img src="./PCB/PCB_render.jpg" width="500">
