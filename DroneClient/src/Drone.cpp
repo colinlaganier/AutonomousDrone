@@ -18,6 +18,8 @@
 /**************************************************************************************************************/
 
 Drone::Drone() {
+//    spray_state = false;
+    get_info(config_file);
 
 }
 
@@ -177,19 +179,19 @@ void Drone::mavlink_request_data(int *serial) {
          */
         mavlink_msg_request_data_stream_pack(2, 200, &msg, 1, 0, MAVStreams[i], MAVRates[i], 1);
         uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-
-        serialPutchar(*serial, buf);
+        const char testing = '\0';
+        serialPutchar(*serial, testing);
         std::cout << buf << "\n";
     }
 }
 
-void Drone::mavlink_receive_data(int *serial) {
+void Drone::mavlink_receive_data(Drone *drone) {
 
     mavlink_message_t msg;
     mavlink_status_t status;
 
-    while(serialDataAvail(*serial)) {
-        uint8_t c = serialGetchar(*serial);
+    while(serialDataAvail(drone->serial)) {
+        uint8_t c = serialGetchar(drone->serial);
 
         std::cout << c << '\n';
 
@@ -257,7 +259,7 @@ void Drone::mavlink_receive_data(int *serial) {
                     mavlink_attitude_t attitude;
                     mavlink_msg_attitude_decode(&msg, &attitude);
 //#ifdef SOFT_SERIAL_DEBUGGING
-                    std::cout << "Attitude: " << atttude.roll << "\n"
+                    std::cout << "Attitude: " << attitude.roll << "\n";
 
 //#endif
                 }
@@ -268,6 +270,23 @@ void Drone::mavlink_receive_data(int *serial) {
             }
         }
     }
+}
+
+DRONE_STATE Drone::get_state() {
+    return state;
+}
+
+void Drone::mavlink_takeoff(Drone *drone) {
+//    MAV_CMD_NAV_TAKEOFF 22
+//    MAV_CMD_NAV_TAKEOFF_LOCAL 24
+    mavlink_message_t msg;
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+
+    mavlink_msg_command_long_pack(drone->mavlink_sys_id, drone->mavlink_comp_id, &msg, 1, 1, 400, 0, 0, 0, 0, 0, 0, 0, 0);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(drone->serial,mavlink_serial);
 }
 
 /**************************************************************************************************************/

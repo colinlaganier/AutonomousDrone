@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(${CMAKE_SOURCE_DIR}/inc)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
-#add_executable(DroneClient src/main.cpp src/UART.h src/UWB.cpp src/TCP_Socket.cpp src/Mavlink.cpp src/Drone.cpp src/Drone.h src/Socket.cpp src/Socket.h src/dwm_api.cpp src/dwm_api.h)
 add_executable(DroneClient src/main.cpp src/Drone.cpp src/Drone.h src/Socket.cpp src/Socket.h)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)

@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/mapping_ros/devel
+
+Name: kinect2_registration
+Description: Description of kinect2_registration
+Version: 0.0.1
+Cflags: -I/home/ubuntu/mapping_ros/src/iai_kinect2/kinect2_registration/include
+Libs: -L${prefix}/lib -lkinect2_registration
+Requires: 

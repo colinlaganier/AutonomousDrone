@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/mapping_ros/devel
+
+Name: rgbdslam
+Description: Description of rgbdslam
+Version: 0.2.0
+Cflags: -I/home/ubuntu/mapping_ros/devel/include
+Libs: -L${prefix}/lib 
+Requires: pcl_conversions pcl_ros roscpp sensor_msgs message_runtime std_msgs

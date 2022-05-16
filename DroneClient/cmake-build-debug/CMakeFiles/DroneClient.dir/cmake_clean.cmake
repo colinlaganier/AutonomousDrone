@@ -1,14 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/DroneClient.dir/src/Drone.cpp.obj"
-  "CMakeFiles/DroneClient.dir/src/Drone.cpp.obj.d"
-  "CMakeFiles/DroneClient.dir/src/Socket.cpp.obj"
-  "CMakeFiles/DroneClient.dir/src/Socket.cpp.obj.d"
-  "CMakeFiles/DroneClient.dir/src/main.cpp.obj"
-  "CMakeFiles/DroneClient.dir/src/main.cpp.obj.d"
-  "DroneClient.exe"
-  "DroneClient.exe.manifest"
+  "CMakeFiles/DroneClient.dir/src/Drone.cpp.o"
+  "CMakeFiles/DroneClient.dir/src/Drone.cpp.o.d"
+  "CMakeFiles/DroneClient.dir/src/Socket.cpp.o"
+  "CMakeFiles/DroneClient.dir/src/Socket.cpp.o.d"
+  "CMakeFiles/DroneClient.dir/src/main.cpp.o"
+  "CMakeFiles/DroneClient.dir/src/main.cpp.o.d"
+  "DroneClient"
   "DroneClient.pdb"
-  "libDroneClient.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.

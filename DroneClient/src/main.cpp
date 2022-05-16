@@ -15,32 +15,38 @@
 #include <sstream>
 #include <cstdlib>
 #include <signal.h>
+#include <chrono>
 #include <unistd.h>
 #include <thread>
-
 #include "Drone.h"
- #include <arpa/inet.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 #include "atomic"
 
-#define PORT 8888
+#define MESSAGE_BUFFER 128
 
-//  Function Prototypes
-bool tpc_verify(Drone &drone, Socket *server_socket);
-void tcp_read_test(Socket *server_socket, int *message);
-//void control_loop(Drone *drone, int *serial_comm, int *message);
-void tcp_handler(int socket, char buffer[],int *message, int *sub_message, bool *send_flag, char send_message[]);
-void test_thread();
+mavlink_system_t mavlink_system = {
+        1, // System ID
+        1  // Component ID (MAV_COMPONENT value)
+};
+
 
 // Data shared between the two threads
 struct Tcp_message{
-    std::atomic_int send_flag;
     std::atomic_bool receive_flag;
-    std::atomic_char *send_message;
+    std::atomic_int send_flag;
+    char send_message[MESSAGE_BUFFER];
+    char receive_message[MESSAGE_BUFFER];
     std::atomic_int send_message_len;
 };
+
+//  Function Prototypes
+void control_loop(Drone *drone, int *serial_comm, int *message);
+void identify_message(char message[], int message_head);
+void tcp_handler(int socket, char buffer[], Tcp_message message);
+void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_or_receive);
 
 //Tcp_message::Tcp_message(send_bool, receive_bool, send_char, send_int) {
 
@@ -51,30 +57,25 @@ int main(){
     Drone drone;
 
     // Loads drone parameters
-    std::string config_file = "../src/drone.ini";
-    if (!drone.get_info(config_file))
-        return -1;
+//    std::string config_file = "../src/drone.ini";
+//    if (!drone.get_info(config_file))
+//        return -1;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TCP Socket communication parameters
-//    int tcp_message = -1;
     int server_socket = 0, val_read;
     struct sockaddr_in serv_addr;
     char* handshake_message;
-    snprintf(handshake_message, 24, "Connection from drone %d", drone.drone_id);
-    char buffer[1024] = { 0 };
 
+    // Initialising variables
     Tcp_message tcp_message;
-//    = {-1, false, nullptr, 0};
     tcp_message.send_flag = -1;
     tcp_message.receive_flag = false;
-    tcp_message.send_message_len = 0;
-    char *test = "test";
-    strcpy(tcp_message.send_message, test);
-//    TODO fix char pointer issue
-//  atomic char cannot be an array and not sure how to modify string otherwise
+    tcp_message.send_message_len = MESSAGE_BUFFER;
+    char tcp_init_message[] = " ";
+    tcp_set_message(&tcp_message, tcp_init_message, true);
+    tcp_set_message(&tcp_message, tcp_init_message, false);
 
-    // TCP Socket setup
     if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         std::cout << "\n Socket creation error \n";
         return -1;
@@ -109,8 +110,8 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Create separate threads to receive base station commands while running
-    std::thread network_thread(tcp_handler,server_socket, buffer);
-    std::thread control_thread(control_loop, &drone, &fd,&tcp_message);
+    std::thread network_thread(tcp_handler, server_socket, &buffer, &tcp_message);
+    std::thread control_thread(control_loop, &drone, &drone.serial, &tcp_message);
 
     network_thread.join();
 //    control_thread.join();
@@ -118,8 +119,7 @@ int main(){
     return 0;
 }
 
-//void tcp_handler(int socket, char buffer[], int *message, int *sub_message, bool *send_flag, char send_message[]){
-void tcp_handler(int socket, char buffer[], Tcp_message message){
+void tcp_handler(int socket, char buffer[], Tcp_message *message){
     std::cout << "TCP Communication thread started\n";
 
     int val_read;
@@ -127,23 +127,31 @@ void tcp_handler(int socket, char buffer[], Tcp_message message){
 
     while(true)
     {
-        if (message.send_flag){
-            send(socket, message.send_message, message.send_message_len, 0);
+        if (message->send_flag){
+            send(socket, message->send_message, message->send_message_len, 0);
         }
         else
-//        if
-//        send(socket, hello, strlen(hello), 0);
-//        cout << "Hello message sent\n";
         val_read = read(socket, buffer, 1024);
         std::cout << "Read message:" << buffer << "\n";
-        
-    }
+        message->receive_flag = true;
+        tcp_set_message(message, buffer, false);
+   }
+}
+
+void send_tcp_message(Tcp_message *tcp_message, char *message){
+    tcp_set_message(tcp_message, message, true);
+
 }
 
 
 
-int identify_message(int message, int sub_message = 0){
-    switch (message) {
+void identify_message(char message[], int message_head){
+
+    if (message[1] == ':'){
+        char* message_tail = message + 2;
+        std::cout << message_tail << '\n';
+    }
+    switch (message_head) {
         case -1:
             break;
         case 0:
@@ -151,6 +159,7 @@ int identify_message(int message, int sub_message = 0){
             break;
         case 1:
             // Send status/sensor data
+
             break;
         case 2:
             // Guided coordinates
@@ -176,30 +185,60 @@ int identify_message(int message, int sub_message = 0){
     }
 }
 
+void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_or_receive){
+    char *destination = (send_or_receive) ? message_object->send_message :  message_object->receive_message;
+    strncpy(destination, new_message, MESSAGE_BUFFER);
+    *(destination+ MESSAGE_BUFFER) = 0;
+//    message_object->send_message_len = strlen(new_message);
+    std::cout << strlen(new_message) << '\n';
+}
 
-[[noreturn]] void control_loop(Drone *drone, int *serial_comm, int *message){
+void control_loop(Drone *drone, int *serial_comm, Tcp_message *tcp_message){
+    auto next = std::chrono::steady_clock::now();
+    auto prev = next - std::chrono::milliseconds(200);
+    unsigned current_heartbeat
+
     while (true) {
 
         drone->mavlink_heartbeat();
 
-
-        if (*message != -1 && *message != drone->state){
-            switch (*message) {
-                case 0:
-
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
+        if (tcp_message->receive_flag){
+            int message_head = (int)tcp_message->receive_message[0];
+            if (message_head != drone->get_state()){
+                identify_message(tcp_message->receive_message, message_head);
             }
         }
 
-        while (serialDataAvail(*serial_comm))
-        {
-            std::cout << serialGetchar (*serial_comm);
-        }
-//        serialPutchar (fd, count) ;
+        //  receiving MAVLINK data
+        drone->mavlink_receive_data(serial_comm);
 
+        bool spray_check = drone->identify_table();
+        if (spray_check != drone->spray_state)
+            drone->toggle_pump();
+
+//  TODO steady frequency
+
+//        auto now = std::chrono::steady_clock::now();
+//        std::cout << round<std::chrono::milliseconds>(now - prev) << '\n';
+//        prev = now;
+//
+//        // delay until time to iterate again
+//        next += std::chrono::milliseconds(200);
+//        std::this_thread::sleep_until(next);
     }
 }
+
+//using namespace std::chrono;
+//using namespace date;
+//auto next = steady_clock::now();
+//auto prev = next - 200ms;
+//while (true)
+//{
+//// do stuff
+//auto now = steady_clock::now();
+//std::cout << round<milliseconds>(now - prev) << '\n';
+//prev = now;
+//
+//// delay until time to iterate again
+//next += 200ms;
+//std::this_thread::sleep_until(next);

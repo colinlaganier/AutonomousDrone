@@ -1,5 +1,10 @@
 # ninja log v5
-0	40	1650370202346465784	CMakeFiles/untitled.dir/main.cpp.o	a7a52c08e954465c
-40	61	1650370202366465999	untitled	70eda2c3eb1be2d8
-0	32	1650371063558445221	CMakeFiles/untitled.dir/main.cpp.o	a7a52c08e954465c
 33	55	1650371063582441926	untitled	70eda2c3eb1be2d8
+0	12	1652201635430426884	CMakeFiles/DroneServer.dir/src/TCP_test.cpp.o	e4ea3caf1c4ad409
+0	181	1652201635602432122	CMakeFiles/DroneServer.dir/src/main.cpp.o	c2fa5bf321314f6a
+0	209	1652201635630432973	CMakeFiles/DroneServer.dir/src/Socket.cpp.o	582253b06c9dbfaf
+209	250	1652201635670434191	DroneServer	b631fec398ab922a
+0	166	1652203126935446305	CMakeFiles/DroneServer.dir/src/main.cpp.o	c2fa5bf321314f6a
+166	206	1652203126975447001	DroneServer	b631fec398ab922a
+0	157	1652203178104361170	CMakeFiles/DroneServer.dir/src/main.cpp.o	c2fa5bf321314f6a
+157	197	1652203178140361832	DroneServer	b631fec398ab922a
