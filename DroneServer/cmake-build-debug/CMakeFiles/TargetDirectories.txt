@@ -1,3 +1,0 @@
-/home/ubuntu/Documents/AutonomousDrone/DroneServer/cmake-build-debug/CMakeFiles/DroneServer.dir
-/home/ubuntu/Documents/AutonomousDrone/DroneServer/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/ubuntu/Documents/AutonomousDrone/DroneServer/cmake-build-debug/CMakeFiles/rebuild_cache.dir

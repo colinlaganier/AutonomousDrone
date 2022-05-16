@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/DroneClient.dir/src/main.cpp.o CMakeFiles/DroneClient.dir/src/Drone.cpp.o CMakeFiles/DroneClient.dir/src/Socket.cpp.o -o DroneClient   -L/home/ubuntu/Documents/AutonomousDrone/DroneClient/lib  -Wl,-rpath,/home/ubuntu/Documents/AutonomousDrone/DroneClient/lib -pthread 
