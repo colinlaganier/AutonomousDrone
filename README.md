@@ -4,6 +4,8 @@
 
 Created by Colin Laganier under the supervision of Prof. Robert Shorten as part of the MEng Final Year Project. 
 
+Progress can be followed on the regularly update logbook for additional information about the project: [https://bit.ly/3Ni6ypL](https://bit.ly/3Ni6ypL)
+
 ## Hardware
 
 <img src="./Hardware/solidwork_hardware.jpg" width="500">
