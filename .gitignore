@@ -20,4 +20,8 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 
+<<<<<<< HEAD
 cmake-build-debug/.DS_Store
+=======
+cmake-build-debug/
+>>>>>>> 92e4c765e8464fc764ae2040422ece9b9615c76a

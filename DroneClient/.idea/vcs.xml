@@ -5,7 +5,7 @@
     <mapping directory="$PROJECT_DIR$/inc/MAVSDK" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/inc/MAVSDK/proto" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/inc/MAVSDK/src/third_party/gtest" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/inc/mavlink" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/inc/mavlink" vcs="" />
     <mapping directory="$PROJECT_DIR$/include/mavlink" vcs="Git" />
   </component>
 </project>

@@ -36,7 +36,7 @@
 //                    mavlink_heartbeat_t hb;
 //                    mavlink_msg_heartbeat_decode(&msg,&hb);
 //                    Serial.println("Received: HEARTBEAT");
-//                    Serial.println(hb.mavlink_version);
+//                    Seriprintln(hb.mavlink_version);
 //                    Serial.println("");
 //                }
 //                    break;
