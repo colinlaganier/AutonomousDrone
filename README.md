@@ -25,6 +25,8 @@ The control software is running on a Raspberry Pi Zero 2 W running Debian on eac
 <img src="./PCB/PCB_render.jpg" width="500">
 <sub>Altium Designer PCB Assembly</sub>
 
+A custom PCB was designed to hold together the DWM1001C module from Decawave, as well as a MPU6050 IMU and a QMC5883L Compass for positioning; as well as a DRV8871 to control the spraying pump. The focus of the PCB is ensuring a small footprint to house all of the components on a small size platform. The PCB was designed with Altium Designer and manufactured and assembled by JLCPCB.
+
 ## Room Mapping
 
 ## Positioning
