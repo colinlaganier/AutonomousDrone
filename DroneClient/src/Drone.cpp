@@ -38,7 +38,7 @@ Drone::~Drone() {
   * @retval None.
   * @notes  None.
   */
-bool Drone::get_info(std::string file_name)
+void Drone::get_info(std::string file_name)
 {
 //    Initialising a INI reader obj
     config_file = file_name;
@@ -47,25 +47,27 @@ bool Drone::get_info(std::string file_name)
 //    Check file loaded properly
     if (reader.ParseError() < 0) {
         std::cout << "Cannot load " << file_name;
-        return false;
     }
+    else {
+        std::cout << "Config loaded from "<< file_name << ": found sections=" << ini_sections(reader) << "\n";
 
-    std::cout << "Config loaded from "<< file_name << ": found sections=" << ini_sections(reader) << "\n";
+        //    Assign values to variables from config file
+        drone_id = reader.GetInteger("drone", "drone_id", 0);
+        drone_port = reader.GetInteger("drone","drone_port", 0);
+        drone_ip = reader.Get("drone", "drone_ip", "0");
+        server_ip = reader.Get("server","server_ip","0");
+        position = new int[3] {static_cast<int>(reader.GetInteger("drone", "longitude",0)),static_cast<int>(reader.GetInteger("drone", "latitude",0)),static_cast<int>(reader.GetInteger("drone", "altitude",0))};
+        mavlink_sys_id = reader.GetInteger("mavlink","system_id", 0);
+        mavlink_comp_id = reader.GetInteger("mavlink","component_id", 0);
+        mavlink_type = MAV_AUTOPILOT_INVALID;
 
-//    Assign values to variables from config file
-    drone_id = reader.GetInteger("drone", "drone_id", 0);
-    drone_port = reader.GetInteger("drone","drone_port", 0);
-    drone_ip = reader.Get("drone", "drone_ip", "0");
-    server_ip = reader.Get("server","server_ip","0");
-    position = new int[3] {static_cast<int>(reader.GetInteger("drone", "longitude",0)),static_cast<int>(reader.GetInteger("drone", "latitude",0)),static_cast<int>(reader.GetInteger("drone", "altitude",0))};
+        //    Verify every value is inputted correctly
+        //    if (verify_data())
+        //        return true;
+        //    else
+        //        return false;
 
-//    Verify every value is inputted correctly
-//    if (verify_data())
-//        return true;
-//    else
-//        return false;
-
-    return true;
+    }
 }
 
 std::string Drone::ini_sections(INIReader &reader)
@@ -139,7 +141,7 @@ void Drone::mavlink_heartbeat() {
     }
 }
 
-void Drone::mavlink_request_data(int *serial) {
+void Drone::mavlink_request_data() {
     mavlink_message_t msg;
     uint8_t buf[MAVLINK_MAX_PACKET_LEN];
 
@@ -180,18 +182,18 @@ void Drone::mavlink_request_data(int *serial) {
         mavlink_msg_request_data_stream_pack(2, 200, &msg, 1, 0, MAVStreams[i], MAVRates[i], 1);
         uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
         const char testing = '\0';
-        serialPutchar(*serial, testing);
+        serialPutchar(serial, testing);
         std::cout << buf << "\n";
     }
 }
 
-void Drone::mavlink_receive_data(Drone *drone) {
+void Drone::mavlink_receive_data() {
 
     mavlink_message_t msg;
     mavlink_status_t status;
 
-    while(serialDataAvail(drone->serial)) {
-        uint8_t c = serialGetchar(drone->serial);
+    while(serialDataAvail(serial)) {
+        uint8_t c = serialGetchar(serial);
 
         std::cout << c << '\n';
 
@@ -276,17 +278,45 @@ DRONE_STATE Drone::get_state() {
     return state;
 }
 
-void Drone::mavlink_takeoff(Drone *drone) {
+void Drone::mavlink_arm() {
+//    MAV_CMD_COMPONENT_ARM_DISARM=400, /* Arms / Disarms a component |0: disarm, 1: arm| 0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
+
+    mavlink_message_t msg;
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+    std::cout << "Arming Drone\n";
+
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(serial, mavlink_serial);
+}
+
+void Drone::mavlink_disarm() {
+//    MAV_CMD_COMPONENT_ARM_DISARM=400, /* Arms / Disarms a component |0: disarm, 1: arm| 0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
+
+    mavlink_message_t msg;
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+    std::cout << "Disarming Drone\n";
+
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(serial, mavlink_serial);
+}
+
+void Drone::mavlink_takeoff() {
 //    MAV_CMD_NAV_TAKEOFF 22
 //    MAV_CMD_NAV_TAKEOFF_LOCAL 24
     mavlink_message_t msg;
     uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
 
-    mavlink_msg_command_long_pack(drone->mavlink_sys_id, drone->mavlink_comp_id, &msg, 1, 1, 400, 0, 0, 0, 0, 0, 0, 0, 0);
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, 400, 0, 0, 0, 0, 0, 0, 0, 0);
     uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
     char *mavlink_serial;
     memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
-    serialPuts(drone->serial,mavlink_serial);
+    serialPuts(serial,mavlink_serial);
 }
 
 /**************************************************************************************************************/

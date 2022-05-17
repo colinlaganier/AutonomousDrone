@@ -39,13 +39,15 @@ struct Tcp_message{
     std::atomic_int send_flag;
     char send_message[MESSAGE_BUFFER];
     char receive_message[MESSAGE_BUFFER];
-    std::atomic_int send_message_len;
+//    std::atomic_int send_message_len;
 };
 
 //  Function Prototypes
 void control_loop(Drone *drone, int *serial_comm, int *message);
-void identify_message(char message[], int message_head);
-void tcp_handler(int socket, char buffer[], Tcp_message message);
+void identify_message(Drone *drone, char message[], int message_head);
+
+[[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message);
+void send_tcp_message(Tcp_message *tcp_message, char *message);
 void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_or_receive);
 
 //Tcp_message::Tcp_message(send_bool, receive_bool, send_char, send_int) {
@@ -64,14 +66,15 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TCP Socket communication parameters
     int server_socket = 0, val_read;
-    struct sockaddr_in serv_addr;
+    struct sockaddr_in server_address;
     char* handshake_message;
+    char buffer[MESSAGE_BUFFER];
 
     // Initialising variables
     Tcp_message tcp_message;
     tcp_message.send_flag = -1;
     tcp_message.receive_flag = false;
-    tcp_message.send_message_len = MESSAGE_BUFFER;
+//    tcp_message.send_message_len = MESSAGE_BUFFER;
     char tcp_init_message[] = " ";
     tcp_set_message(&tcp_message, tcp_init_message, true);
     tcp_set_message(&tcp_message, tcp_init_message, false);
@@ -81,22 +84,23 @@ int main(){
         return -1;
     }
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons((uint16_t)drone.drone_port);
+    server_address.sin_family = AF_INET;
+    server_address.sin_port = htons((uint16_t)drone.drone_port);
 
     // Convert IPv4 and IPv6 addresses from text to binary
-    if (inet_pton(AF_INET, drone.server_ip.c_str(), &serv_addr.sin_addr)<= 0) {
+    if (inet_pton(AF_INET, drone.server_ip.c_str(), &server_address.sin_addr)<= 0) {
         std::cout << "\nInvalid address/ Address not supported \n";
         return -1;
     }
 
-    if (connect(server_socket, (struct sockaddr*)&serv_addr,sizeof(serv_addr)) < 0) {
+    if (connect(server_socket, (struct sockaddr*)&server_address,sizeof(server_address)) < 0) {
         std::cout << "\nConnection Failed \n";
         return -1;
     }
 
     // Verifies connection confirmation from server
-    val_read = read(server_socket, buffer, 1024);
+//    val_read =
+    read(server_socket, buffer, MESSAGE_BUFFER);
     std::cout << "Connection confirmation:" << buffer << "\n";
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,12 +118,12 @@ int main(){
     std::thread control_thread(control_loop, &drone, &drone.serial, &tcp_message);
 
     network_thread.join();
-//    control_thread.join();
+    control_thread.join();
 
     return 0;
 }
 
-void tcp_handler(int socket, char buffer[], Tcp_message *message){
+[[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message){
     std::cout << "TCP Communication thread started\n";
 
     int val_read;
@@ -128,10 +132,12 @@ void tcp_handler(int socket, char buffer[], Tcp_message *message){
     while(true)
     {
         if (message->send_flag){
-            send(socket, message->send_message, message->send_message_len, 0);
+            send(socket, message->send_message, MESSAGE_BUFFER, 0);
+            message->send_flag = false;
         }
         else
-        val_read = read(socket, buffer, 1024);
+//        val_read =
+        read(socket, buffer, 1024);
         std::cout << "Read message:" << buffer << "\n";
         message->receive_flag = true;
         tcp_set_message(message, buffer, false);
@@ -140,13 +146,10 @@ void tcp_handler(int socket, char buffer[], Tcp_message *message){
 
 void send_tcp_message(Tcp_message *tcp_message, char *message){
     tcp_set_message(tcp_message, message, true);
-
 }
 
 
-
-void identify_message(char message[], int message_head){
-
+void identify_message(Drone *drone, char message[], int message_head, char *message_response){
     if (message[1] == ':'){
         char* message_tail = message + 2;
         std::cout << message_tail << '\n';
@@ -158,14 +161,21 @@ void identify_message(char message[], int message_head){
             // Idle Mode
             break;
         case 1:
-            // Send status/sensor data
-
+            // Set flight mode
+            if (subm)
             break;
         case 2:
             // Guided coordinates
             break;
         case 3:
             // Arm Motors
+            if (drone->flight_mode == STABILIZE) {
+                drone->mavlink_arm();
+                message_response = "Drone armed";
+            }
+            else {
+                message_response = "Flight mode not set to stabilize";
+            }
             break;
         case 4:
             // Take off
@@ -196,7 +206,8 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 void control_loop(Drone *drone, int *serial_comm, Tcp_message *tcp_message){
     auto next = std::chrono::steady_clock::now();
     auto prev = next - std::chrono::milliseconds(200);
-    unsigned current_heartbeat
+    char *message_response;
+
 
     while (true) {
 
@@ -205,12 +216,14 @@ void control_loop(Drone *drone, int *serial_comm, Tcp_message *tcp_message){
         if (tcp_message->receive_flag){
             int message_head = (int)tcp_message->receive_message[0];
             if (message_head != drone->get_state()){
-                identify_message(tcp_message->receive_message, message_head);
+
+                identify_message(drone, tcp_message->receive_message, message_head, message_response);
+                tcp_set_message(tcp_message, message_response, );
             }
         }
 
         //  receiving MAVLINK data
-        drone->mavlink_receive_data(serial_comm);
+        drone->mavlink_receive_data();
 
         bool spray_check = drone->identify_table();
         if (spray_check != drone->spray_state)
@@ -227,18 +240,3 @@ void control_loop(Drone *drone, int *serial_comm, Tcp_message *tcp_message){
 //        std::this_thread::sleep_until(next);
     }
 }
-
-//using namespace std::chrono;
-//using namespace date;
-//auto next = steady_clock::now();
-//auto prev = next - 200ms;
-//while (true)
-//{
-//// do stuff
-//auto now = steady_clock::now();
-//std::cout << round<milliseconds>(now - prev) << '\n';
-//prev = now;
-//
-//// delay until time to iterate again
-//next += 200ms;
-//std::this_thread::sleep_until(next);

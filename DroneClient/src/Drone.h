@@ -38,6 +38,13 @@ typedef enum {
     LANDING
 } DRONE_STATE;
 
+typedef enum {
+    NONE,
+    GUIDED_NOGPS,
+    STABILIZE,
+    ALT_HOLD
+} FLIGHT_MODE;
+
 class Drone{
 public:
 
@@ -47,6 +54,7 @@ public:
 
 //    Public Variables
     DRONE_STATE state = SETUP;
+    FLIGHT_MODE flight_mode = NONE;
     std::string config_file = "../src/drone.ini";
     int drone_id;
     int drone_port;
@@ -70,7 +78,7 @@ public:
 
 //  Public Methods
 //  Drone Data Methods
-    bool get_info(std::string file_name);
+    void get_info(std::string file_name);
     void get_status();
     DRONE_STATE get_state();
 
@@ -86,10 +94,11 @@ public:
     int setup_serial(int *serial);
     void mavlink_setup();
     void mavlink_heartbeat();
-    void mavlink_request_data(int *serial);
-    void mavlink_receive_data(int *serial);
+    void mavlink_request_data();
+    void mavlink_receive_data();
+    void mavlink_arm();
     void mavlink_disarm();
-    void mavlink_takeoff(Drone *drone);
+    void mavlink_takeoff();
 
 //  Hardware Methods
     void toggle_pump();
