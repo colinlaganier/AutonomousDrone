@@ -43,8 +43,8 @@ struct Tcp_message{
 };
 
 //  Function Prototypes
-void control_loop(Drone *drone, int *serial_comm, int *message);
-void identify_message(Drone *drone, char message[], int message_head);
+void control_loop(Drone *drone, int *message);
+void identify_message(Drone *drone, char message[], int message_head, char *message_response);
 
 [[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message);
 void send_tcp_message(Tcp_message *tcp_message, char *message);
@@ -57,11 +57,6 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 int main(){
     std::cout << "Drone Startup\n";
     Drone drone;
-
-    // Loads drone parameters
-//    std::string config_file = "../src/drone.ini";
-//    if (!drone.get_info(config_file))
-//        return -1;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TCP Socket communication parameters
@@ -99,7 +94,6 @@ int main(){
     }
 
     // Verifies connection confirmation from server
-//    val_read =
     read(server_socket, buffer, MESSAGE_BUFFER);
     std::cout << "Connection confirmation:" << buffer << "\n";
 
@@ -113,9 +107,9 @@ int main(){
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Create separate threads to receive base station commands while running
+    // Create separate threads to receive base station commands while running
     std::thread network_thread(tcp_handler, server_socket, &buffer, &tcp_message);
-    std::thread control_thread(control_loop, &drone, &drone.serial, &tcp_message);
+    std::thread control_thread(control_loop, &drone, &tcp_message);
 
     network_thread.join();
     control_thread.join();
@@ -148,50 +142,98 @@ void send_tcp_message(Tcp_message *tcp_message, char *message){
     tcp_set_message(tcp_message, message, true);
 }
 
+FLIGHT_MODE identify_mode(char *mode_request){
+    if (mode_request == "Guided")
+        return GUIDED_NOGPS;
+    else if (mode_request == "Stabilize")
+        return STABILIZE;
+    else if (mode_request == "AltitudeHold")
+        return ALT_HOLD;
+    else if (mode_request == "Loiter")
+        return LOITER;
+    else if (mode_request == "PositionHold")
+        return POS_HOLD;
+    else if (mode_request == "RTL")
+        return RTL;
+    else if (mode_request == "Auto")
+        return AUTO;
+}
+
 
 void identify_message(Drone *drone, char message[], int message_head, char *message_response){
+    // Message format int:char[] -> ex: "1:Stabilize\0"
+    char* message_tail;
     if (message[1] == ':'){
-        char* message_tail = message + 2;
+        message_tail = message + 2;
         std::cout << message_tail << '\n';
     }
     switch (message_head) {
-        case -1:
+        case -1: {
+            std::cout << "idle mode";
             break;
-        case 0:
-            // Idle Mode
+        }
+        case 0: {
+            // Setup Mode
+            if (drone->mavlink_positioning_status())
+                drone->toggle_sensor_uwb();
+
+            std::cout << "Check setup";
             break;
-        case 1:
+        }
+        case 1: {
             // Set flight mode
-            if (subm)
+            FLIGHT_MODE new_mode = identify_mode(message_tail);
+            drone->mavlink_set_flight_mode(new_mode);
             break;
-        case 2:
+        }
+        case 2: {
             // Guided coordinates
             break;
-        case 3:
+        }
+        case 3:{
             // Arm Motors
-            if (drone->flight_mode == STABILIZE) {
-                drone->mavlink_arm();
-                message_response = "Drone armed";
+            if (drone->drone_sensor.uwb){
+                if (drone->flight_mode == STABILIZE || drone->flight_mode == AUTO) {
+                    drone->mavlink_arm();
+                    drone->state = ARMED;
+                    message_response = "Drone armed";
+                }
+                else {
+                    message_response = "Flight mode not set to stabilize";
+                }
             }
-            else {
-                message_response = "Flight mode not set to stabilize";
-            }
+            message_response = "Positioning not ready";
             break;
-        case 4:
+        }
+        case 4:{
+            if (drone->state == ARMED && drone->flight_mode == AUTO){
+                drone->mavlink_takeoff();
+
+//                drone->state = STATIONARY;
+            }
+
             // Take off
             break;
-        case 5:
+        }
+        case 5: {
             // Stabilize
             break;
-        case 6:
+        }
+        case 6: {
             // Guided mode
             break;
-        case 7:
+        }
+        case 7: {
             // Return home
             break;
-        case 8:
+        }
+        case 8: {
             // Land
             break;
+        }
+         default:
+            break;
+
     }
 }
 
@@ -203,40 +245,43 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
     std::cout << strlen(new_message) << '\n';
 }
 
-void control_loop(Drone *drone, int *serial_comm, Tcp_message *tcp_message){
-    auto next = std::chrono::steady_clock::now();
-    auto prev = next - std::chrono::milliseconds(200);
+[[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message){
     char *message_response;
-
 
     while (true) {
 
-        drone->mavlink_heartbeat();
+        // Send heartbeat at a ~1Hz frequency
+        unsigned long mavlink_current_heartbeat = millis();
+        if (mavlink_current_heartbeat - drone->mavlink_previous_heartbeat >= drone->mavlink_interval_heartbeat) {
+            drone->mavlink_previous_heartbeat = mavlink_current_heartbeat;
+            drone->mavlink_heartbeat();
+            drone->number_hbs++;
 
-        if (tcp_message->receive_flag){
-            int message_head = (int)tcp_message->receive_message[0];
-            if (message_head != drone->get_state()){
-
-                identify_message(drone, tcp_message->receive_message, message_head, message_response);
-                tcp_set_message(tcp_message, message_response, );
+            // Periodic FC data request
+            if (drone->number_hbs >= drone->setup_hbs){
+                drone->mavlink_request_data();
+                drone->number_hbs = 0;
             }
         }
 
-        //  receiving MAVLINK data
+        // Check if TCP command received from Ground Station
+        if (tcp_message->receive_flag){
+            int message_head = (int)tcp_message->receive_message[0];
+            if (message_head != drone->get_state()){
+                identify_message(drone, tcp_message->receive_message, message_head, message_response);
+                tcp_set_message(tcp_message, message_response, true);
+            }
+        }
+
+//        if (drone->state == TAKEOFF)
+//            std::cout <<
+
+        //  Receiving MAVLINK data
         drone->mavlink_receive_data();
 
-        bool spray_check = drone->identify_table();
-        if (spray_check != drone->spray_state)
+        // Toggle spray if over a table
+        if (drone->spray_state != drone->identify_table())
             drone->toggle_pump();
 
-//  TODO steady frequency
-
-//        auto now = std::chrono::steady_clock::now();
-//        std::cout << round<std::chrono::milliseconds>(now - prev) << '\n';
-//        prev = now;
-//
-//        // delay until time to iterate again
-//        next += std::chrono::milliseconds(200);
-//        std::this_thread::sleep_until(next);
     }
 }

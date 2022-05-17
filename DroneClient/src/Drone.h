@@ -33,16 +33,21 @@ struct Sensors {
 typedef enum {
     SETUP,
     DISARMED,
+    ARMED,
+    TAKEOFF,
     STATIONARY,
     GUIDED,
     LANDING
 } DRONE_STATE;
 
 typedef enum {
-    NONE,
-    GUIDED_NOGPS,
-    STABILIZE,
-    ALT_HOLD
+    AUTO = 3,
+    GUIDED_NOGPS = 20,
+    STABILIZE = 0,
+    ALT_HOLD = 2,
+    LOITER = 5,
+    POS_HOLD = 16,
+    RTL = 6
 } FLIGHT_MODE;
 
 class Drone{
@@ -54,7 +59,7 @@ public:
 
 //    Public Variables
     DRONE_STATE state = SETUP;
-    FLIGHT_MODE flight_mode = NONE;
+    FLIGHT_MODE flight_mode = STABILIZE;
     std::string config_file = "../src/drone.ini";
     int drone_id;
     int drone_port;
@@ -66,10 +71,10 @@ public:
     Sensors drone_sensor = { false, false, false, false };
     Sensors *sensor_status = &drone_sensor;
 
-//  Public MAVLINK Variables
+//  MAVLINK Variables
     int serial;
-    unsigned long previousMillisMAVLink = 0;     // will store las
-    unsigned long next_interval_MAVLink = 1000;  // next interval to count
+    unsigned long mavlink_previous_heartbeat = 0;     // will store las
+    unsigned long mavlink_interval_heartbeat = 1000;  // next interval to count
     const int setup_hbs = 60;                      // number of heartbeats to wait before activating STREAMS
     int number_hbs = setup_hbs;
     int mavlink_sys_id;
@@ -96,14 +101,15 @@ public:
     void mavlink_heartbeat();
     void mavlink_request_data();
     void mavlink_receive_data();
+    bool mavlink_positioning_status();
     void mavlink_arm();
     void mavlink_disarm();
     void mavlink_takeoff();
+    void mavlink_set_flight_mode(FLIGHT_MODE mode);
 
 //  Hardware Methods
     void toggle_pump();
     bool identify_table();
-
 
 private:
     static std::string ini_sections(INIReader &reader);

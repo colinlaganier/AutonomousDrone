@@ -20,7 +20,7 @@
 Drone::Drone() {
 //    spray_state = false;
     get_info(config_file);
-
+    mavlink_previous_heartbeat = millis();
 }
 
 Drone::~Drone() {
@@ -128,17 +128,15 @@ void Drone::mavlink_heartbeat() {
     uint8_t system_state = MAV_STATE_STANDBY; ///< System ready for flight
     // Initialize the required buffers
     mavlink_message_t msg;
-    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
 
     mavlink_msg_heartbeat_pack(1, 0, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
 
     // Copy the message to the buffer
-    uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
-
-    unsigned long currentMillisMAVLink = millis();
-    if (currentMillisMAVLink - previousMillisMAVLink >= next_interval_MAVLink) {
-        previousMillisMAVLink = currentMillisMAVLink;
-    }
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(serial, mavlink_serial);
 }
 
 void Drone::mavlink_request_data() {
@@ -278,6 +276,12 @@ DRONE_STATE Drone::get_state() {
     return state;
 }
 
+bool Drone::mavlink_positioning_status(){
+//    TODO parse status response
+    return true;
+};
+
+
 void Drone::mavlink_arm() {
 //    MAV_CMD_COMPONENT_ARM_DISARM=400, /* Arms / Disarms a component |0: disarm, 1: arm| 0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
 
@@ -312,7 +316,18 @@ void Drone::mavlink_takeoff() {
     mavlink_message_t msg;
     uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
 
-    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, 400, 0, 0, 0, 0, 0, 0, 0, 0);
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(serial,mavlink_serial);
+}
+
+void Drone::mavlink_set_flight_mode(FLIGHT_MODE mode) {
+    mavlink_message_t msg;
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_DO_SET_MODE, 0, MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, mode, 0, 0, 0, 0, 0);
     uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
     char *mavlink_serial;
     memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
