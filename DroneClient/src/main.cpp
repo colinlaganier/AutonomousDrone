@@ -24,6 +24,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include "atomic"
+//#include <wiringPi/wiringPi.h>
 
 #define MESSAGE_BUFFER 128
 
@@ -43,10 +44,9 @@ struct Tcp_message{
 };
 
 //  Function Prototypes
-void control_loop(Drone *drone, int *message);
-void identify_message(Drone *drone, char message[], int message_head, char *message_response);
-
+[[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message);
 [[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message);
+void identify_message(Drone *drone, char message[], int message_head, char *message_response);
 void send_tcp_message(Tcp_message *tcp_message, char *message);
 void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_or_receive);
 
@@ -60,9 +60,9 @@ int main(){
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TCP Socket communication parameters
-    int server_socket = 0, val_read;
+    int server_socket = 0;
     struct sockaddr_in server_address;
-    char* handshake_message;
+//    char* handshake_message;
     char buffer[MESSAGE_BUFFER];
 
     // Initialising variables
@@ -100,7 +100,7 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Initializing UART communication
 
-    if (drone.setup_serial(&drone.serial) > 0) {
+    if (drone.setup_serial() > 0) {
         std::cout << "Error initialising UART \n";
         return -1;
     }
@@ -108,7 +108,7 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Create separate threads to receive base station commands while running
-    std::thread network_thread(tcp_handler, server_socket, &buffer, &tcp_message);
+    std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
     std::thread control_thread(control_loop, &drone, &tcp_message);
 
     network_thread.join();
@@ -117,10 +117,10 @@ int main(){
     return 0;
 }
 
-[[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message){
+void tcp_handler(int socket, char buffer[], Tcp_message *message){
     std::cout << "TCP Communication thread started\n";
 
-    int val_read;
+//    int val_read;
 
 
     while(true)
@@ -143,20 +143,29 @@ void send_tcp_message(Tcp_message *tcp_message, char *message){
 }
 
 FLIGHT_MODE identify_mode(char *mode_request){
-    if (mode_request == "Guided")
+    const char *mode_guided = "Guided";
+    const char *mode_stabilize = "Stabilize";
+    const char *mode_althold = "AltitudeHold";
+    const char *mode_loiter = "Loiter";
+    const char *mode_poshold = "PositionHold";
+    const char *mode_rtl = "RTL";
+    const char *mode_auto = "Auto";
+
+    if (mode_request == mode_guided)
         return GUIDED_NOGPS;
-    else if (mode_request == "Stabilize")
+    else if (mode_request == mode_stabilize)
         return STABILIZE;
-    else if (mode_request == "AltitudeHold")
+    else if (mode_request == mode_althold)
         return ALT_HOLD;
-    else if (mode_request == "Loiter")
+    else if (mode_request == mode_loiter)
         return LOITER;
-    else if (mode_request == "PositionHold")
+    else if (mode_request == mode_poshold)
         return POS_HOLD;
-    else if (mode_request == "RTL")
+    else if (mode_request == mode_rtl)
         return RTL;
-    else if (mode_request == "Auto")
+    else if (mode_request == mode_auto)
         return AUTO;
+    return STABILIZE;
 }
 
 
@@ -193,7 +202,7 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
         case 3:{
             drone->mavlink_arm();
             drone->state = ARMED;
-            message_response = "Drone armed";
+            strcpy(message_response, "Drone Armed");
             // Arm Motors
 //            if (drone->drone_sensor.uwb){
 //                if (drone->flight_mode == STABILIZE || drone->flight_mode == AUTO) {
@@ -222,7 +231,7 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
             // Stabilize
             drone->mavlink_disarm();
             drone->state = DISARMED;
-            message_response = "Drone disarmed";
+            strcpy(message_response, "Drone Disarmed");
 
             break;
         }
@@ -253,7 +262,7 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 }
 
 [[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message){
-    char *message_response;
+    char message_response[256];
 
     while (true) {
 
@@ -287,8 +296,8 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
         drone->mavlink_receive_data();
 
         // Toggle spray if over a table
-        if (drone->spray_state != drone->identify_table())
-            drone->toggle_pump();
+//        if (drone->spray_state != drone->identify_table())
+//            drone->toggle_pump();
 
     }
 }

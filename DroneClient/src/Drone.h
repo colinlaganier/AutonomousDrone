@@ -78,7 +78,7 @@ public:
     Sensors drone_sensor = { false, false, false, false };
     Sensors *sensor_status = &drone_sensor;
     // guided message -> [x,y,z]
-    std::vector<int[]>
+//    std::vector<int[]>
 
 //  MAVLINK Variables
     int serial;
@@ -107,7 +107,7 @@ public:
     void toggle_sensor_fc();
 
 //  Serial Mavlink Methods
-    int setup_serial(int *serial);
+    int setup_serial();
     void mavlink_setup();
     void mavlink_heartbeat();
     void mavlink_request_data();
