@@ -191,24 +191,27 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
             break;
         }
         case 3:{
+            drone->mavlink_arm();
+            drone->state = ARMED;
+            message_response = "Drone armed";
             // Arm Motors
-            if (drone->drone_sensor.uwb){
-                if (drone->flight_mode == STABILIZE || drone->flight_mode == AUTO) {
-                    drone->mavlink_arm();
-                    drone->state = ARMED;
-                    message_response = "Drone armed";
-                }
-                else {
-                    message_response = "Flight mode not set to stabilize";
-                }
-            }
-            message_response = "Positioning not ready";
+//            if (drone->drone_sensor.uwb){
+//                if (drone->flight_mode == STABILIZE || drone->flight_mode == AUTO) {
+//                    drone->mavlink_arm();
+//                    drone->state = ARMED;
+//                    message_response = "Drone armed";
+//                }
+//                else {
+//                    message_response = "Flight mode not set to stabilize";
+//                }
+//            }
+//            message_response = "Positioning not ready";
             break;
         }
         case 4:{
             if (drone->state == ARMED && drone->flight_mode == AUTO){
-                drone->mavlink_takeoff();
-
+//                drone->mavlink_takeoff();
+                std::cout << "Takeoff\n";
 //                drone->state = STATIONARY;
             }
 
@@ -217,6 +220,10 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
         }
         case 5: {
             // Stabilize
+            drone->mavlink_disarm();
+            drone->state = DISARMED;
+            message_response = "Drone disarmed";
+
             break;
         }
         case 6: {

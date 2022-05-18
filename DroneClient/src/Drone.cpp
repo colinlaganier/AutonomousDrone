@@ -281,6 +281,19 @@ bool Drone::mavlink_positioning_status(){
     return true;
 };
 
+void Drone::mavlink_command_long(uint16_t command, uint8_t confirmation, float param1 = 0, float param2 = 0, float param3  = 0, float param4  = 0, float param5  = 0, float param6 = 0, float param7 = 0 ){
+    mavlink_message_t msg;
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+
+    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, mavlink_target_sys_id, mavlink_target_comp_id, command, confirmation, param1, param2, param3, param4, param5, param6, param7);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char *mavlink_serial;
+    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    serialPuts(serial,mavlink_serial);
+}
+
+//mavlink_msg_heartbeat_pack(1,0, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
+//mavlink_msg_request_data_stream_pack(2, 200, &msg, 1, 0, MAVStreams[i], MAVRates[i], 1);
 
 void Drone::mavlink_arm() {
 //    MAV_CMD_COMPONENT_ARM_DISARM=400, /* Arms / Disarms a component |0: disarm, 1: arm| 0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)| Reserved (default:0)|  */
@@ -289,7 +302,8 @@ void Drone::mavlink_arm() {
     uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
     std::cout << "Arming Drone\n";
 
-    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+//    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, mavlink_target_sys_id, mavlink_target_comp_id, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
+    mavlink_msg_command_long_pack(10, 0, &msg, 1, 0, MAV_CMD_COMPONENT_ARM_DISARM, 0, 1, 0, 0, 0, 0, 0, 0);
     uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
     char *mavlink_serial;
     memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
@@ -302,37 +316,43 @@ void Drone::mavlink_disarm() {
     mavlink_message_t msg;
     uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
     std::cout << "Disarming Drone\n";
+    mavlink_msg_command_long_pack(10, 0, &msg, 1, 0, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
+//    mavlink_msg_command_long_pack(mavlink_sys_id, MAV_COMP_ID_ALL, &msg, 1, 1, MAV_CMD_COMPONENT_ARM_DISARM, 0, 0, 0, 0, 0, 0, 0, 0);
     uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
     char *mavlink_serial;
     memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
     serialPuts(serial, mavlink_serial);
 }
 
-void Drone::mavlink_takeoff() {
-//    MAV_CMD_NAV_TAKEOFF 22
-//    MAV_CMD_NAV_TAKEOFF_LOCAL 24
-    mavlink_message_t msg;
-    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
-
-    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0);
-    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
-    char *mavlink_serial;
-    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
-    serialPuts(serial,mavlink_serial);
-}
+//void Drone::mavlink_takeoff() {
+////    MAV_CMD_NAV_TAKEOFF 22
+////    MAV_CMD_NAV_TAKEOFF_LOCAL 24
+////    mavlink_message_t msg;
+////    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+////
+////    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0);
+////    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+////    char *mavlink_serial;
+////    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+////    serialPuts(serial,mavlink_serial);
+//    mavlink_command_long(MAV_CMD_DO_SET_MODE,0,MAV_CMD_NAV_TAKEOFF,0,0,0,0,0,2);
+//
+//}
 
 void Drone::mavlink_set_flight_mode(FLIGHT_MODE mode) {
-    mavlink_message_t msg;
-    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
-
-    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_DO_SET_MODE, 0, MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, mode, 0, 0, 0, 0, 0);
-    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
-    char *mavlink_serial;
-    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
-    serialPuts(serial,mavlink_serial);
+//    mavlink_message_t msg;
+//    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
+//
+//    mavlink_msg_command_long_pack(mavlink_sys_id, mavlink_comp_id, &msg, 1, 1, MAV_CMD_DO_SET_MODE, 0, MAV_MODE_FLAG_CUSTOM_MODE_ENABLED, mode, 0, 0, 0, 0, 0);
+//    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+//    char *mavlink_serial;
+//    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+//    serialPuts(serial,mavlink_serial);
+    mavlink_command_long(MAV_CMD_DO_SET_MODE,0,MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,mode);
 }
+
+
 
 /**************************************************************************************************************/
 /*                                               PRIVATE METHODS                                              */

@@ -30,6 +30,13 @@ struct Sensors {
     bool tcp;
 };
 
+struct Waypoint {
+    uint32_t latitude;
+    uint32_t longitude;
+    float altitude;
+
+};
+
 typedef enum {
     SETUP,
     DISARMED,
@@ -70,6 +77,8 @@ public:
     bool spray_state = false;
     Sensors drone_sensor = { false, false, false, false };
     Sensors *sensor_status = &drone_sensor;
+    // guided message -> [x,y,z]
+    std::vector<int[]>
 
 //  MAVLINK Variables
     int serial;
@@ -79,6 +88,8 @@ public:
     int number_hbs = setup_hbs;
     int mavlink_sys_id;
     int mavlink_comp_id;
+    int mavlink_target_sys_id;
+    int mavlink_target_comp_id;
     int mavlink_type;
 
 //  Public Methods
@@ -101,20 +112,22 @@ public:
     void mavlink_heartbeat();
     void mavlink_request_data();
     void mavlink_receive_data();
+    void mavlink_command_long(uint16_t command, uint8_t confirmation, float param1, float param2, float param3, float param4,
+                              float param5, float param6, float param7);
     bool mavlink_positioning_status();
     void mavlink_arm();
     void mavlink_disarm();
-    void mavlink_takeoff();
-    void mavlink_set_flight_mode(FLIGHT_MODE mode);
+//    void mavlink_takeoff();
 
+    void mavlink_set_flight_mode(FLIGHT_MODE mode);
 //  Hardware Methods
     void toggle_pump();
-    bool identify_table();
 
+    bool identify_table();
 private:
     static std::string ini_sections(INIReader &reader);
-    void verify_data();
 
+    void verify_data();
 };
 
 
