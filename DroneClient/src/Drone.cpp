@@ -21,6 +21,8 @@ Drone::Drone() {
 //    spray_state = false;
     get_info(config_file);
     mavlink_previous_heartbeat = millis();
+    std::cout << "Heartbeat millis " << mavlink_previous_heartbeat << "\n";
+    std::cout << "Constructor call finished\n";
 }
 
 Drone::~Drone() {
@@ -95,6 +97,17 @@ void Drone::toggle_sensor_fc() {
     sensor_status->imu = !sensor_status->imu;
 }
 
+bool Drone::drone_ready(){
+    if (drone_sensor.fc == false)
+        return false;
+    if (drone_sensor.tcp == false)
+        return false;
+    //if (sensor_status.uwb == false)
+        //return false;
+    //if (sensor_status.imu == false)
+        //return false;
+}
+
 int Drone::setup_serial() {
     // Initializing UART communication
     serial = serialOpen("/dev/ttyAMA0", 115200);
@@ -112,9 +125,36 @@ int Drone::setup_serial() {
 }
 
 void Drone::mavlink_setup() {
+    std::cout << "Sending Heartbeat\n";
+    int mavlink_attempt = 0;
+    int mavlink_setup_interval = 500;
+    
+    unsigned long mavlink_setup_attempt = millis();
+    unsigned long mavlink_attempt_current = mavlink_setup_attempt;
 
-
+    bool mavlink_response = false;
+    
+    while (mavlink_attempt < 7 ){
+        mavlink_heartbeat();
+        
+        bool response = mavlink_receive_response();
+        
+        if (response){
+            mavlink_response = true;
+            break;
+        }
+        else
+            mavlink_attempt++;
+        
+        
+        while ((mavlink_attempt_current - mavlink_setup_attempt) < mavlink_setup_interval)
+            mavlink_attempt_current = millis();
+    }
+    
+    if (mavlink_response)
+        toggle_sensor_fc();
 }
+
 
 void Drone::mavlink_heartbeat() {
 //    int sysid = 1;                   ///< ID 20 for this airplane. 1 PX, 255 ground station
@@ -271,6 +311,96 @@ void Drone::mavlink_receive_data() {
             }
         }
     }
+}
+
+bool Drone::mavlink_receive_response() {
+
+    mavlink_message_t msg;
+    mavlink_status_t status;
+    bool mavlink_established = false;
+
+    while(serialDataAvail(serial)) {
+        mavlink_established = true;
+        uint8_t c = serialGetchar(serial);
+
+        std::cout << c << '\n';
+
+        if(mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
+
+            // Handle message
+            switch(msg.msgid) {
+                case MAVLINK_MSG_ID_HEARTBEAT:  // #0: Heartbeat
+                {
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Ardupilot Heartbeat\n";
+//#endif
+                }
+                    break;
+
+                case MAVLINK_MSG_ID_SYS_STATUS:  // #1: SYS_STATUS
+                {
+                    /* Message decoding: PRIMITIVE
+                     *    mavlink_msg_sys_status_decode(const mavlink_message_t* msg, mavlink_sys_status_t* sys_status)
+                     */
+                    //mavlink_message_t* msg;
+                    mavlink_sys_status_t sys_status;
+                    mavlink_msg_sys_status_decode(&msg, &sys_status);
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Battery voltage: " << sys_status.voltage_battery << "; current: "
+                    << sys_status.current_battery << "; comm loss: " << sys_status.drop_rate_comm << "\n";
+//#endif
+                }
+                    break;
+
+                case MAVLINK_MSG_ID_PARAM_VALUE:  // #22: PARAM_VALUE
+                {
+                    /* Message decoding: PRIMITIVE
+                     *    mavlink_msg_param_value_decode(const mavlink_message_t* msg, mavlink_param_value_t* param_value)
+                     */
+                    //mavlink_message_t* msg;
+                    mavlink_param_value_t param_value;
+                    mavlink_msg_param_value_decode(&msg, &param_value);
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Param values: " << param_value.param_value << "; count: " << param_value.param_count
+                    << "; index: " << param_value.param_index  << "; id: " << param_value.param_id << "; type:  "
+                    <<param_value.param_type << "\n";
+//#endif
+                }
+                    break;
+
+                case MAVLINK_MSG_ID_RAW_IMU:  // #27: RAW_IMU
+                {
+                    /* Message decoding: PRIMITIVE
+                     *    static inline void mavlink_msg_raw_imu_decode(const mavlink_message_t* msg, mavlink_raw_imu_t* raw_imu)
+                     */
+                    mavlink_raw_imu_t raw_imu;
+                    mavlink_msg_raw_imu_decode(&msg, &raw_imu);
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Raw IMU: " << raw_imu.xacc << "\n";
+//#endif
+                }
+                    break;
+
+                case MAVLINK_MSG_ID_ATTITUDE:  // #30
+                {
+                    /* Message decoding: PRIMITIVE
+                     *    mavlink_msg_attitude_decode(const mavlink_message_t* msg, mavlink_attitude_t* attitude)
+                     */
+                    mavlink_attitude_t attitude;
+                    mavlink_msg_attitude_decode(&msg, &attitude);
+//#ifdef SOFT_SERIAL_DEBUGGING
+                    std::cout << "Attitude: " << attitude.roll << "\n";
+
+//#endif
+                }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+    return mavlink_established;
 }
 
 DRONE_STATE Drone::get_state() {

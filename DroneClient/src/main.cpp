@@ -107,24 +107,29 @@ int main(){
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    drone.mavlink_setup();
+    
+    if (drone.drone_ready())    
+    {
     // Create separate threads to receive base station commands while running
-    std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
-    std::thread control_thread(control_loop, &drone, &tcp_message);
+    //std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
+        std::thread control_thread(control_loop, &drone, &tcp_message);
 
-    network_thread.join();
-    control_thread.join();
-
+    //network_thread.join();
+        control_thread.join();
+    }
     return 0;
 }
 
 void tcp_handler(int socket, char buffer[], Tcp_message *message){
     std::cout << "TCP Communication thread started\n";
 
-//    int val_read;
+    int index = 0;
 
 
-    while(true)
+    while(index < 3)
     {
+        index++;
         if (message->send_flag){
             send(socket, message->send_message, MESSAGE_BUFFER, 0);
             message->send_flag = false;
@@ -263,22 +268,22 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 
 [[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message){
     char message_response[256];
-
-    while (true) {
-
+    int index = 0;
+    while (index < 1) {
+	index++;
         // Send heartbeat at a ~1Hz frequency
-        unsigned long mavlink_current_heartbeat = millis();
-        if (mavlink_current_heartbeat - drone->mavlink_previous_heartbeat >= drone->mavlink_interval_heartbeat) {
-            drone->mavlink_previous_heartbeat = mavlink_current_heartbeat;
-            drone->mavlink_heartbeat();
-            drone->number_hbs++;
+        //unsigned long mavlink_current_heartbeat = millis();
+        //if (mavlink_current_heartbeat - drone->mavlink_previous_heartbeat >= drone->mavlink_interval_heartbeat) {
+            //drone->mavlink_previous_heartbeat = mavlink_current_heartbeat;
+            //drone->mavlink_heartbeat();
+            //drone->number_hbs++;
 
-            // Periodic FC data request
-            if (drone->number_hbs >= drone->setup_hbs){
-                drone->mavlink_request_data();
-                drone->number_hbs = 0;
-            }
-        }
+            //// Periodic FC data request
+            //if (drone->number_hbs >= drone->setup_hbs){
+                //drone->mavlink_request_data();
+                //drone->number_hbs = 0;
+            //}
+        //}
 
         // Check if TCP command received from Ground Station
         if (tcp_message->receive_flag){
@@ -293,7 +298,7 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 //            std::cout <<
 
         //  Receiving MAVLINK data
-        drone->mavlink_receive_data();
+        //drone->mavlink_receive_data();
 
         // Toggle spray if over a table
 //        if (drone->spray_state != drone->identify_table())
