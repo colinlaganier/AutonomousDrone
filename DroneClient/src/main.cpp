@@ -117,8 +117,7 @@ int main(){
     return 0;
 }
 
-[[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message){
-    std::cout << "TCP Communication thread started\n";
+[[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message){ std::cout << "TCP Communication thread started\n";
 
     int val_read;
 

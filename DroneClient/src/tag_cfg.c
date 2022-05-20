@@ -1,41 +1,19 @@
-/**
-  **********************************************************************************
-  * @file     DWM1001C.cpp
-  * @author   Colin Laganier
-  * @version  V0.1
-  * @date     2022-05-01
-  * @brief   This file contains the header information for the DWM1001C positioning.
-  **********************************************************************************
-  * @attention  Requires DWM1001 API library & WiringPi for hardware communication.
-  */
-
-//Include Files
-#include "DWM1001C.h"
-
-/**************************************************************************************************************/
-/*                                                CONSTRUCTORS                                                */
-/**************************************************************************************************************/
-
-DWM1001C::DWM1001C() {
-
-}
-
-DWM1001C::~DWM1001C() {
-
-}
-/**************************************************************************************************************/
-/*                                                PUBLIC METHODS                                              */
-/**************************************************************************************************************/
-
-
-/**
-  * @name   get_info
-  * @brief  A method which parses data from config file and initializes public variables.
-  * @param  file_name -> string for the file name.
-  * @retval None.
-  * @notes  None.
-  */
-
+///*! ------------------------------------------------------------------------------------------------------------------
+// * @file    tag_cfg.c
+// * @brief   Decawave device configuration and control functions
+// *
+// * @attention
+// *
+// * Copyright 2017 (c) Decawave Ltd, Dublin, Ireland.
+// *
+// * All rights reserved.
+// *
+// */
+//#include "inc/dwm1001/dwm_api.h"
+//#include <iostream>
+//
+////#include "hal.h"
+//
 //int main(void)
 //{
 //   int i;
@@ -43,7 +21,7 @@ DWM1001C::~DWM1001C() {
 //   dwm_cfg_tag_t cfg_tag;
 //   dwm_cfg_t cfg_node;
 //
-//   HAL_Print("dwm_init(): dev%d\n", HAL_DevNum());
+////   HAL_Print("dwm_init(): dev%d\n", HAL_DevNum());
 //   std::cout << "DWM Init\n";
 //   dwm_init();
 //
