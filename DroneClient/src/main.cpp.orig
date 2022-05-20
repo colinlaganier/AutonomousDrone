@@ -121,8 +121,12 @@ int main(){
     return 0;
 }
 
+<<<<<<< HEAD
 [[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message){ std::cout << "TCP Communication thread started\n";
+=======
+void tcp_handler(int socket, char buffer[], Tcp_message *message){
     std::cout << "TCP Communication thread started\n";
+>>>>>>> 77bf1989c58af07795b0f5efd03269bd4e31cb6f
 
     int index = 0;
 
@@ -244,7 +248,7 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
             // Guided mode
             break;
         }
-	case 7: {
+        case 7: {
             // Return home
             break;
         }

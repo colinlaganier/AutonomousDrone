@@ -17,8 +17,8 @@
 #include <iostream>
 #include "sstream"
 #include "INIReader.h"
-#include <wiringPi/wiringPi.h>
-#include <wiringPi/wiringSerial.h>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 #include "mavlink/ardupilotmega/mavlink.h"
 //#include "common/mavlink_msg_request_data_stream.h"
 
@@ -34,7 +34,6 @@ struct Waypoint {
     uint32_t latitude;
     uint32_t longitude;
     float altitude;
-
 };
 
 typedef enum {
@@ -78,7 +77,7 @@ public:
     Sensors drone_sensor = { false, false, false, false };
     Sensors *sensor_status = &drone_sensor;
     // guided message -> [x,y,z]
-    std::vector<int[]>
+//    std::vector<int[]>
 
 //  MAVLINK Variables
     int serial;
@@ -105,9 +104,11 @@ public:
     void toggle_sensor_uwb();
     void toggle_sensor_tcp();
     void toggle_sensor_fc();
+    bool drone_ready();
 
 //  Serial Mavlink Methods
-    int setup_serial(int *serial);
+    int setup_serial();
+    bool mavlink_receive_response();
     void mavlink_setup();
     void mavlink_heartbeat();
     void mavlink_request_data();
