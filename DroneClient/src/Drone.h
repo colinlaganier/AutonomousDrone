@@ -19,9 +19,21 @@
 #include "INIReader.h"
 #include <wiringPi.h>
 #include <wiringSerial.h>
-#include "mavlink/ardupilotmega/mavlink.h"
+//#include "wiringPi/wiringPi/wiringPi.h"
+//#include "wiringPi/wiringPi/wiringSerial.h"
+#include "mavlink/common/mavlink.h"
+#include "mavlink/ardupilotmega/ardupilotmega.h"
 //#include "common/mavlink_msg_request_data_stream.h"
+#include "serial_port.h"
+#include <unistd.h>
 
+// Mavlink additionnal define
+#define GUIDED 15
+#define ARMED 128
+
+// Rover hard setup:
+#define BAUDRATE 115200
+#define UARTNAME "/dev/serial0"
 
 struct Sensors {
     bool uwb;
@@ -39,10 +51,10 @@ struct Waypoint {
 typedef enum {
     SETUP,
     DISARMED,
-    ARMED,
+    ARMED_STATE,
     TAKEOFF,
     STATIONARY,
-    GUIDED,
+    GUIDED_STATE,
     LANDING
 } DRONE_STATE;
 
@@ -125,8 +137,37 @@ public:
     void toggle_pump();
 
     bool identify_table();
+
+
+    // Get the current mode of the rover:
+    int get_mode();
+    // Get armed state of the rover:
+    int get_armed();
+    // Handle message from rover:
+    int handle_message(mavlink_message_t *msg);
+    // Recieved message:
+    int recv_data();
+
+    // Set rover in guided mode:
+    int guided_mode();
+
+    // Arme the rover (armed: state=1 / disarmed: state=0):
+    int arm(int state);
+
+    // Set the yaw and speed of the rover:
+    int setAngleSpeed(float angle, float speed);
+
+    // RC-overwrite the channel (not working...)
+    int mavRCOVER(int angle, int speed);
+
 private:
     static std::string ini_sections(INIReader &reader);
+
+    int r_baudrate;
+    char *r_uart_name;
+    Serial_Port serial_port;
+    uint8_t r_armed;
+    uint8_t r_mode;
 
     void verify_data();
 };

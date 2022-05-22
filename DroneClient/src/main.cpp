@@ -18,13 +18,14 @@
 #include <chrono>
 #include <unistd.h>
 #include <thread>
-#include "Drone.h"
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 #include "atomic"
-//#include <wiringPi/wiringPi.h>
+
+//#include "DWM1001C.h"
+#include "Drone.h"
 
 #define MESSAGE_BUFFER 128
 
@@ -44,6 +45,7 @@ struct Tcp_message{
 };
 
 //  Function Prototypes
+//[[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message, DWM1001C *dwm);
 [[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message);
 [[noreturn]] void tcp_handler(int socket, char buffer[], Tcp_message *message);
 void identify_message(Drone *drone, char message[], int message_head, char *message_response);
@@ -55,8 +57,10 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 //}
 
 int main(){
+    setvbuf(stdout, NULL, _IONBF, 0);
     std::cout << "Drone Startup\n";
     Drone drone;
+//    DWM1001C dwm;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // TCP Socket communication parameters
@@ -92,6 +96,8 @@ int main(){
         std::cout << "\nConnection Failed \n";
         return -1;
     }
+    else
+        drone.toggle_sensor_tcp();
 
     // Verifies connection confirmation from server
     read(server_socket, buffer, MESSAGE_BUFFER);
@@ -100,23 +106,41 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Initializing UART communication
 
-    if (drone.setup_serial() > 0) {
-        std::cout << "Error initialising UART \n";
-        return -1;
-    }
+//    if (drone.setup_serial() > 0) {
+//        std::cout << "Error initialising UART \n";
+//        return -1;
+//    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    drone.mavlink_setup();
-    
-    if (drone.drone_ready())    
+//    dwm.dwm_setup();
+//    if (dwm.dwm_verify_config()) {
+//        drone.toggle_sensor_uwb();
+//    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//    drone.mavlink_setup();
+
+    printf("I am here\n");
+
+    if (drone.drone_ready())
     {
+        printf("Drone ready\n");
     // Create separate threads to receive base station commands while running
     //std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
-        std::thread control_thread(control_loop, &drone, &tcp_message);
+//        std::thread control_thread(control_loop, &drone, &tcp_message, &dwm);
+//        std::thread control_thread(control_loop, &drone, &tcp_message);
+        drone.guided_mode();
+        printf("Setting guide mode...\n");
+        while((drone.get_mode() != GUIDED)){
+            drone.recv_data();
+            drone.guided_mode();
+        }
+        sleep(0.5);
 
     //network_thread.join();
-        control_thread.join();
+//        control_thread.join();
     }
     return 0;
 }
@@ -206,13 +230,13 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
         }
         case 3:{
             drone->mavlink_arm();
-            drone->state = ARMED;
+            drone->state = ARMED_STATE;
             strcpy(message_response, "Drone Armed");
             // Arm Motors
 //            if (drone->drone_sensor.uwb){
 //                if (drone->flight_mode == STABILIZE || drone->flight_mode == AUTO) {
 //                    drone->mavlink_arm();
-//                    drone->state = ARMED;
+//                    drone->state = ARMED_STATE;
 //                    message_response = "Drone armed";
 //                }
 //                else {
@@ -223,7 +247,7 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
             break;
         }
         case 4:{
-            if (drone->state == ARMED && drone->flight_mode == AUTO){
+            if (drone->state == ARMED_STATE && drone->flight_mode == AUTO){
 //                drone->mavlink_takeoff();
                 std::cout << "Takeoff\n";
 //                drone->state = STATIONARY;
@@ -259,34 +283,64 @@ void identify_message(Drone *drone, char message[], int message_head, char *mess
 }
 
 void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_or_receive){
-    char *destination = (send_or_receive) ? message_object->send_message :  message_object->receive_message;
+    char *destination;
+    destination = (send_or_receive) ? message_object->send_message :  message_object->receive_message;
     strncpy(destination, new_message, MESSAGE_BUFFER);
     *(destination+ MESSAGE_BUFFER) = 0;
 //    message_object->send_message_len = strlen(new_message);
     std::cout << strlen(new_message) << '\n';
 }
 
+//[[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message, DWM1001C *dwm){
 [[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message){
     char message_response[256];
-    int index = 0;
-    while (index < 1) {
-	index++;
+    while (true) {
         // Send heartbeat at a ~1Hz frequency
-        //unsigned long mavlink_current_heartbeat = millis();
-        //if (mavlink_current_heartbeat - drone->mavlink_previous_heartbeat >= drone->mavlink_interval_heartbeat) {
-            //drone->mavlink_previous_heartbeat = mavlink_current_heartbeat;
-            //drone->mavlink_heartbeat();
-            //drone->number_hbs++;
+        unsigned long mavlink_current_heartbeat = millis();
+        if (mavlink_current_heartbeat - drone->mavlink_previous_heartbeat >= drone->mavlink_interval_heartbeat) {
+            drone->mavlink_previous_heartbeat = mavlink_current_heartbeat;
+            drone->mavlink_heartbeat();
+            drone->number_hbs++;
 
-            //// Periodic FC data request
-            //if (drone->number_hbs >= drone->setup_hbs){
-                //drone->mavlink_request_data();
-                //drone->number_hbs = 0;
-            //}
-        //}
+            // Periodic FC data request
+            if (drone->number_hbs >= drone->setup_hbs){
+                std::cout << "Requesting Data \n";
+                drone->mavlink_request_data();
+                drone->number_hbs = 0;
+            }
+        }
+
+        // Fetch uwb positioning
+//        unsigned long uwb_current_sensing = millis();
+//        if ((uwb_current_sensing - dwm->uwb_last_sensing ) < dwm->wait_period){
+//            dwm->uwb_last_sensing = uwb_current_sensing;
+//
+//            if(dwm_loc_get(&(dwm->loc)) == RV_OK)
+//            {
+//                HAL_Print("\t[%d,%d,%d,%u]\n", dwm->loc.p_pos->x, dwm->loc.p_pos->y, dwm->loc.p_pos->z,
+//                          dwm->loc.p_pos->qf);
+//
+//                for (int i = 0; i < dwm->loc.anchors.dist.cnt; ++i)
+//                {
+//                    HAL_Print("\t%u)", i);
+//                    HAL_Print("0x%llx", dwm->loc.anchors.dist.addr[i]);
+//                    if (i < dwm->loc.anchors.an_pos.cnt)
+//                    {
+//                        HAL_Print("[%d,%d,%d,%u]", dwm->loc.anchors.an_pos.pos[i].x,
+//                                  dwm->loc.anchors.an_pos.pos[i].y,
+//                                  dwm->loc.anchors.an_pos.pos[i].z,
+//                                  dwm->loc.anchors.an_pos.pos[i].qf);
+//                    }
+//                    HAL_Print("=%u,%u\n", dwm->loc.anchors.dist.dist[i], dwm->loc.anchors.dist.qf[i]);
+//
+////                    dwm
+//                }
+//            }
+//        }
 
         // Check if TCP command received from Ground Station
         if (tcp_message->receive_flag){
+//            std::cout << "Received message\n";
             int message_head = (int)tcp_message->receive_message[0];
             if (message_head != drone->get_state()){
                 identify_message(drone, tcp_message->receive_message, message_head, message_response);
@@ -298,7 +352,7 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 //            std::cout <<
 
         //  Receiving MAVLINK data
-        //drone->mavlink_receive_data();
+        drone->mavlink_receive_data();
 
         // Toggle spray if over a table
 //        if (drone->spray_state != drone->identify_table())

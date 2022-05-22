@@ -17,15 +17,16 @@
 /*                                                CONSTRUCTORS                                                */
 /**************************************************************************************************************/
 
-Drone::Drone() {
-//    spray_state = false;
-    get_info(config_file);
-    mavlink_previous_heartbeat = millis();
-    std::cout << "Heartbeat millis " << mavlink_previous_heartbeat << "\n";
-    std::cout << "Constructor call finished\n";
-}
+//Drone::Drone() {
+////    spray_state = false;
+//    get_info(config_file);
+//    mavlink_previous_heartbeat = millis();
+//    std::cout << "Heartbeat millis " << mavlink_previous_heartbeat << "\n";
+//    std::cout << "Constructor call finished\n";
+//}
 
 Drone::~Drone() {
+    serialClose(serial);
     delete position;
 }
 
@@ -94,7 +95,7 @@ void Drone::toggle_sensor_tcp() {
 }
 
 void Drone::toggle_sensor_fc() {
-    sensor_status->imu = !sensor_status->imu;
+    sensor_status->fc = !sensor_status->fc;
 }
 
 bool Drone::drone_ready(){
@@ -110,7 +111,7 @@ bool Drone::drone_ready(){
 
 int Drone::setup_serial() {
     // Initializing UART communication
-    serial = serialOpen("/dev/ttyAMA0", 115200);
+    serial = serialOpen("/dev/ttyUSB0", 115200);
     if (serial < 0)
     {
         std::cout << "Unable to open serial device\n";
@@ -121,11 +122,13 @@ int Drone::setup_serial() {
         std::cout << "Unable to start wiringPi\n";
         return 1 ;
     }
+    char init_message[] = {"This is the init message"};
+    serialPuts(serial,init_message);
     return 0;
 }
 
 void Drone::mavlink_setup() {
-    std::cout << "Sending Heartbeat\n";
+    std::cout << "Mavlink Setup\n";
     int mavlink_attempt = 0;
     int mavlink_setup_interval = 500;
     
@@ -134,7 +137,7 @@ void Drone::mavlink_setup() {
 
     bool mavlink_response = false;
     
-    while (mavlink_attempt < 7 ){
+    while (mavlink_attempt < 20 ){
         mavlink_heartbeat();
         
         bool response = mavlink_receive_response();
@@ -174,15 +177,17 @@ void Drone::mavlink_heartbeat() {
     mavlink_msg_heartbeat_pack(1, 0, &msg, type, autopilot_type, system_mode, custom_mode, system_state);
 
     // Copy the message to the buffer
-    mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
-    char mavlink_serial[MAVLINK_MAX_PACKET_LEN];
-    memcpy(mavlink_buffer, mavlink_serial, MAVLINK_MAX_PACKET_LEN);
+    uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+    char mavlink_serial[len+1];
+    memcpy(mavlink_buffer, mavlink_serial, len+1);
+    mavlink_serial[-1] = '\0';
     serialPuts(serial, mavlink_serial);
+//    std::cout << "Mavlink Serial: " << mavlink_serial << '\n';
 }
 
 void Drone::mavlink_request_data() {
     mavlink_message_t msg;
-    uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+    uint8_t mavlink_buffer[MAVLINK_MAX_PACKET_LEN];
 
     /*
      * Definitions are in common.h: enum MAV_DATA_STREAM
@@ -218,11 +223,16 @@ void Drone::mavlink_request_data() {
          *    uint16_t req_message_rate, uint8_t start_stop)
          *
          */
-        mavlink_msg_request_data_stream_pack(2, 200, &msg, 1, 0, MAVStreams[i], MAVRates[i], 1);
-        mavlink_msg_to_send_buffer(buf, &msg);
-        const char testing = '\0';
-        serialPutchar(serial, testing);
-        std::cout << buf << "\n";
+        mavlink_msg_request_data_stream_pack(10, 200, &msg, 1, 0, MAVStreams[i], MAVRates[i], 1);
+        uint16_t len = mavlink_msg_to_send_buffer(mavlink_buffer, &msg);
+        char mavlink_serial[len+1];
+        memcpy(mavlink_buffer, mavlink_serial, len+1);
+        mavlink_serial[-1] = '\0';
+        serialPuts(serial, mavlink_serial);
+//        mavlink_msg_to_send_buffer(buf, &msg);
+//        const char testing = '\0';
+//        serialPutchar(serial, testing);
+//        std::cout << buf << "\n";
     }
 }
 
@@ -234,10 +244,11 @@ void Drone::mavlink_receive_data() {
     while(serialDataAvail(serial)) {
         uint8_t c = serialGetchar(serial);
 
-        std::cout << c << '\n';
+//        std::cout << std::to_string(c) << '\n';
+
 
         if(mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
-
+            printf("Received message with ID %d, sequence: %d from component %d of system %d\n", msg.msgid, msg.seq, msg.compid, msg.sysid);
             // Handle message
             switch(msg.msgid) {
                 case MAVLINK_MSG_ID_HEARTBEAT:  // #0: Heartbeat
@@ -323,7 +334,7 @@ bool Drone::mavlink_receive_response() {
         mavlink_established = true;
         uint8_t c = serialGetchar(serial);
 
-        std::cout << c << '\n';
+//        std::cout << std::to_string(c) << '\n';
 
         if(mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
 
@@ -498,4 +509,176 @@ void Drone::get_status() {
     std::cout << "uwb: " << ((sensor_status->uwb) ? "on\n" : "off\n");
     std::cout << "tcp: " << ((sensor_status->tcp) ? "on\n" : "off\n");
     std::cout << "fc: " << ((sensor_status->fc) ? "on\n" : "off\n");
+}
+
+
+//test
+Drone::Drone():serial_port((char*)UARTNAME, BAUDRATE)
+{
+    //initilisation of the serial communication:
+    printf("Serial - interface start\n");
+    serial_port.start();
+    printf("Rover serial connection established\n");
+    toggle_sensor_fc();
+
+    get_info(config_file);
+    mavlink_previous_heartbeat = millis();
+    std::cout << "Heartbeat millis " << mavlink_previous_heartbeat << "\n";
+//    std::cout << "Constructor call finished\n";
+
+}
+
+int Drone::get_mode()
+{
+    //printf("get_mode call: %d\n", r_mode);
+    return(r_mode);
+}
+
+int Drone::get_armed()
+{
+    //printf("get_armed call: %d\n",r_armed);
+    return(r_armed);
+}
+
+int Drone::handle_message(mavlink_message_t *msg)
+{
+    mavlink_heartbeat_t hb;
+
+    switch (msg->msgid)
+    {
+        case MAVLINK_MSG_ID_HEARTBEAT:
+        {
+            printf("MAVLINK_MSG_ID_HEARTBEAT\n");
+            mavlink_msg_heartbeat_decode(msg, &hb);
+            printf("SystemID: %d\n", msg->sysid);
+            printf("Component ID: %d\n", msg->compid);
+            printf("status: %d\n", hb.system_status);
+            printf("custom mode: %d\n", hb.custom_mode);
+            printf("autopilot: %d\n", hb.autopilot);
+            printf("type: %d\n", hb.type);
+            //printf("base_mode: %d\n", hb.base_mode);
+            printf("system_status: %d\n",hb.system_status);
+
+            // Check the arm status:
+            int armed_state = hb.base_mode & MAV_MODE_FLAG_SAFETY_ARMED;
+            printf("Armed? %s \n", armed_state ? "yes" : "no");
+            //printf("raw: %d", armed_state);
+            printf("\n");
+
+            // Setup the rover parameters:
+            r_mode = hb.custom_mode;
+            r_armed = armed_state;
+            return(1);
+        }
+        default:
+        {
+            //printf("Warning, did not handle message id %i\n",msg->msgid);
+            return(-1);
+        }
+    }
+}
+
+int Drone::recv_data()
+{
+    bool success;
+    mavlink_message_t msg;
+
+    success = serial_port.read_message(msg);
+
+    if(success)
+    {
+        int id = handle_message(&msg);
+        return(id);
+    }
+    return(-1);
+}
+
+int Drone::guided_mode()
+{
+    // Format the data:
+    mavlink_command_long_t set_mode = {0};
+    set_mode.target_system = 1;
+    set_mode.target_component = 0;
+    set_mode.command = MAV_CMD_DO_SET_MODE;		//176
+    set_mode.confirmation = true;
+    set_mode.param1 = 1; 				//need to be 1 ?? check
+    set_mode.param2 = GUIDED; 			//guided_mode: 4 for drone / 15 for rover...
+
+    // Encode:
+    mavlink_message_t msg;
+    mavlink_msg_command_long_encode(1, 255, &msg, &set_mode);
+
+    // Write in the serial:
+    int len = serial_port.write_message(msg);
+    //printf("Guided mode (%d)\n", len);
+    return(len);
+}
+
+int Drone::arm(int state)
+{
+    // Format the data:
+    mavlink_command_long_t armed = {0};
+    armed.target_system = 1;
+    armed.target_component = 0;
+    armed.command = MAV_CMD_COMPONENT_ARM_DISARM; //400
+    armed.confirmation = true;
+    armed.param1 = (int) state;
+
+    // Encode:
+    mavlink_message_t msg;
+    mavlink_msg_command_long_encode(1, 255, &msg, &armed);
+
+    // Write in the serial:
+    int len = serial_port.write_message(msg);
+    //printf("Rover armed = %d (%d)\n",state, len);
+    return(len);
+}
+
+int Drone::setAngleSpeed(float angle, float speed)
+{
+    //Valid input:
+    if(( speed < 0.0 ) || ( speed > 1.0 ))
+    {
+        printf("print invalid speed input: [0-1] * cruise speed\n");
+        speed = 0.0;
+    }
+
+    // Format the data:
+    mavlink_command_long_t set_yawspeed = {0};
+    set_yawspeed.target_system = 1;
+    set_yawspeed.target_component = 0;
+    set_yawspeed.command = MAV_CMD_NAV_SET_YAW_SPEED; //; 	//213 (MAV_CMD_DO_SET_POSITION_YAW_THRUST)
+    set_yawspeed.confirmation = false;
+    set_yawspeed.param1 = angle;			 	//angle (centridegree) [-4500 - 4500]
+    set_yawspeed.param2 = speed;	 			//speed normalized [0 - 1]
+
+    // Encode:
+    mavlink_message_t msg;
+    mavlink_msg_command_long_encode(1, 255, &msg, &set_yawspeed);
+
+    // Write in the serial:
+    int len = serial_port.write_message(msg);
+    printf("Send angle: %f | speed: %f\n", angle, speed);
+    return(len);
+}
+
+int Drone::mavRCOVER(int angle, int speed)
+{
+    // Format the data:
+    mavlink_rc_channels_override_t rcover = {0};
+    rcover.target_system = 1;
+    rcover.target_component = 0;
+    rcover.chan1_raw = (int) angle; //[1000 - 1500]
+    rcover.chan3_raw = (int) speed; //[1000 - 1500]
+
+    // Encode:
+    mavlink_message_t msg;
+    int lenover = mavlink_msg_rc_channels_override_encode(1, 1, &msg, &rcover);
+    printf("mavl lenover %d\n", lenover);
+
+    // Write in the serial:
+    int len = serial_port.write_message(msg);
+    printf("Send angle: %d | speed: %d\n", angle, speed);
+    printf("len: %d\n", len);
+    return(len);
 }
