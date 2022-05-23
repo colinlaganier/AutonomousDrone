@@ -13,6 +13,10 @@
 #ifndef _HAL_GPIO_H_
 #define _HAL_GPIO_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <wiringPi.h>
 
 #define HAL_GPIO_INT_EDGE_FALLING   INT_EDGE_FALLING
@@ -50,6 +54,10 @@ int HAL_GPIO_SetupCb(int pin, int edge_type, void (*cb)(void));
  * @return GPIO value
  */
 int HAL_GPIO_PinRead(int pin);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_HAL_GPIO_H_
 

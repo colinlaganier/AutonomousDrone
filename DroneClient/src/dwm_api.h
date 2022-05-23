@@ -13,6 +13,10 @@
 #ifndef _DWM_API_H_
 #define _DWM_API_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "dwm1001_tlv.h"
 
 /**
@@ -902,6 +906,10 @@ int dwm_uwb_scan_start(void);
  * @retval DWM_ERR_INVAL_ADDR null pointer supplied
  */
 int dwm_uwb_scan_result_get(dwm_uwb_scan_result_t *p_result);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_DWM_API_H_
 

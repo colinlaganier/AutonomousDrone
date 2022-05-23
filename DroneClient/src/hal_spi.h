@@ -12,12 +12,16 @@
 #ifndef _HAL_SPI_H_
 #define _HAL_SPI_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 #define HAL_SPI_MAX_LENGTH           255
 #define HAL_SPI_MAX_PRINT_LENGTH     HAL_SPI_MAX_LENGTH*3
 #define HAL_SPI_WAIT_PERIOD          1
-
+#define HAL_LOG_ENABLED 1
 #define HAL_SPI_DEV0 0
 #define HAL_SPI_DEV1 1
 
@@ -79,6 +83,10 @@ int HAL_SPI_Tx(uint8_t* data, uint8_t* length);
  * @return Error code
  */
 int HAL_SPI_Rx(uint8_t* data, uint8_t* length);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_HAL_SPI_H_
 

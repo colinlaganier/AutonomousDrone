@@ -12,11 +12,17 @@
 #ifndef _HAL_H_
 #define _HAL_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include "hal_interface.h"
 
 #define HAL_OK          0
 #define HAL_ERR         1
+#define INTERFACE_NUMBER 1
+#define HAL_LOG_ENABLED 1
 
 /** 
  * @brief HAL_Print redefines printf
@@ -58,6 +64,10 @@ void HAL_Nop(void);
  * @return current device number
  */
 int HAL_DevNum();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_HAL_H_
 

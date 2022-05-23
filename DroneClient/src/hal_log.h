@@ -13,6 +13,10 @@
 #ifndef _HAL_LOG_H_
 #define _HAL_LOG_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -43,5 +47,9 @@ void HAL_Log_DeInit(void);
  * @return none
  */
 void HAL_Log(const char* format, ... );
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_HAL_FPRINT_H_

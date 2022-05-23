@@ -19,6 +19,8 @@
 #include "hal.h"
 #include "hal_log.h"
 
+#define INTERFACE_NUMBER 1
+
 /** 
  * @brief initializes the LMH utilities over defined interface
  *
@@ -92,9 +94,9 @@ int LMH_Tx(uint8_t* data, uint8_t* length)
  */
 int LMH_WaitForRx(uint8_t* data, uint16_t* length, uint16_t exp_length)
 {
-#if INTERFACE_NUMBER == 0
-   return LMH_UARTRX_WaitForRx(data, length, exp_length);
-#elif INTERFACE_NUMBER == 1
+//#if INTERFACE_NUMBER == 0
+//   return LMH_UARTRX_WaitForRx(data, length, exp_length);
+#if INTERFACE_NUMBER == 1
    return LMH_SPIRX_WaitForRx(data, length, exp_length);
 #elif INTERFACE_NUMBER == 2
    return LMH_SPIRX_DRDY_WaitForRx(data, length, exp_length);

@@ -13,7 +13,9 @@
 #ifndef DRONECLIENT_DWM1001C_H
 #define DRONECLIENT_DWM1001C_H
 
-#define INTERFACE_NUMBER 1;
+#define INTERFACE_NUMBER 1
+#define TARGET 0
+#define PRINT_LVL 3
 #define NUM_ANCHORS 4
 #define MSG_HEADER          0x01
 #define MSGID_BEACON_CONFIG 0x02
@@ -21,10 +23,10 @@
 #define MSGID_POSITION      0x04
 
 #include <iostream>
-#include "hal/hal.h"
-#include "dwm1001/dwm_api.h"
-#include <wiringPi/wiringPi.h>
-#include <wiringPi/wiringSerial.h>
+#include "hal.h"
+#include "dwm_api.h"
+//#include <wiringPi/wiringPi.h>
+//#include <wiringPi/wiringSerial.h>
 
 class DWM1001C {
 public:
@@ -66,6 +68,5 @@ public:
     void send_message(uint8_t msg_id, uint8_t data_len, uint8_t data_buf[]);
     int setup_serial();
 };
-
 
 #endif //DRONECLIENT_DWM1001C_H

@@ -12,6 +12,10 @@
 #ifndef _HAL_UART_H_
 #define _HAL_UART_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 #define HAL_UART_MAX_LENGTH            255
@@ -75,6 +79,10 @@ int HAL_UART_Rx(uint8_t* data, uint8_t* length);
  * @return none
  */
 void HAL_UART_SetRxCb(void (*cb_func)(int));
+
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif //_HAL_UART_H_

@@ -32,6 +32,7 @@
 #endif   
 
 #define LMH_SPIRX_TIMEOUT_DEFAULT         1000
+#define HAL_SPI_WAIT_PERIOD 1
 
 static bool lmh_spirx_initialized[2]={false, false};
 static int  lmh_spirx_timeout = LMH_SPIRX_TIMEOUT_DEFAULT;

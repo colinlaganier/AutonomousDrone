@@ -69,8 +69,8 @@ DEFINES += INTERFACE_NUMBER=$(INTERFACE_NUMBER)
 ifeq ($(INTERFACE_NUMBER),0)
 INCLUDES += $(HAL_DIR)/hal_uart.h
 SOURCES += $(HAL_DIR)/hal_uart.c
-INCLUDES += $(LMH_DIR)/lmh_uartrx.h
-SOURCES += $(LMH_DIR)/lmh_uartrx.c
+# INCLUDES += $(LMH_DIR)/lmh_uartrx.h
+# SOURCES += $(LMH_DIR)/lmh_uartrx.c
 endif 
 
 ifeq ($(INTERFACE_NUMBER),1)

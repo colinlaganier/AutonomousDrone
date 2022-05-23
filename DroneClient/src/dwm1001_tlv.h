@@ -1,6 +1,10 @@
 #ifndef _DWM1001_TLV_H_
 #define _DWM1001_TLV_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -99,5 +103,8 @@
 #define DWM_API_PARAMS_CNT_MAX                     3
 #define DWM1001_TLV_TYPE_IDLE                      0xff /* Dummy byte, or type: idle */
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_DWM1001_TLV_H_

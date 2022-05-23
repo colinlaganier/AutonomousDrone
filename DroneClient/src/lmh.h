@@ -16,17 +16,22 @@
 #ifndef _LMH_H_
 #define _LMH_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include "dwm_api.h"
 #include "hal.h"
 #include "hal_interface.h"
 
+#define INTERFACE_NUMBER 1
 #define LMH_OK    HAL_OK
 #define LMH_ERR   HAL_ERR
 
-#if INTERFACE_NUMBER == 0
-#include "lmh_uartrx.h"
-#elif INTERFACE_NUMBER == 1
+//#if INTERFACE_NUMBER == 0
+//#include "lmh_uartrx.h"
+#if INTERFACE_NUMBER == 1
 #include "lmh_spirx.h"
 #elif INTERFACE_NUMBER == 2
 #include "lmh_spirx.h"
@@ -103,6 +108,9 @@ int LMH_CheckGPIOIdx(dwm_gpio_idx_t idx);
  */
 int LMH_CheckRetVal(uint8_t* ret_val);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_LMH_H_
 

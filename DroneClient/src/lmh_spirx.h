@@ -20,6 +20,10 @@
 #ifndef _LMH_SPIRX_H_
 #define _LMH_SPIRX_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 /**
@@ -63,6 +67,9 @@ void LMH_SPIRX_SetWait(int wait);
  */
 int  LMH_SPIRX_WaitForRx(uint8_t* data, uint16_t* length, uint16_t exp_length);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_LMH_SPIRX_H_
 

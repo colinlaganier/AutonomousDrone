@@ -27,11 +27,7 @@
 #include "serial_port.h"
 #include <unistd.h>
 
-// Mavlink additionnal define
-#define GUIDED 15
-#define ARMED 128
-
-// Rover hard setup:
+// Mavlink Serial Setup
 #define BAUDRATE 115200
 #define UARTNAME "/dev/serial0"
 
@@ -61,6 +57,7 @@ typedef enum {
 typedef enum {
     AUTO = 3,
     GUIDED_NOGPS = 20,
+//    GUIDED = 4,
     STABILIZE = 0,
     ALT_HOLD = 2,
     LOITER = 5,
@@ -124,15 +121,15 @@ public:
     void mavlink_setup();
     void mavlink_heartbeat();
     void mavlink_request_data();
-    void mavlink_receive_data();
+    int mavlink_receive_data();
     void mavlink_command_long(uint16_t command, uint8_t confirmation, float param1, float param2, float param3, float param4,
                               float param5, float param6, float param7);
     bool mavlink_positioning_status();
-    void mavlink_arm();
-    void mavlink_disarm();
+    int mavlink_arm(int state = 0);
+    int mavlink_disarm();
 //    void mavlink_takeoff();
 
-    void mavlink_set_flight_mode(FLIGHT_MODE mode);
+    int mavlink_set_flight_mode(FLIGHT_MODE mode);
 //  Hardware Methods
     void toggle_pump();
 
@@ -141,24 +138,12 @@ public:
 
     // Get the current mode of the rover:
     int get_mode();
-    // Get armed state of the rover:
     int get_armed();
-    // Handle message from rover:
-    int handle_message(mavlink_message_t *msg);
-    // Recieved message:
-    int recv_data();
-
-    // Set rover in guided mode:
-    int guided_mode();
-
-    // Arme the rover (armed: state=1 / disarmed: state=0):
-    int arm(int state);
+    int mavlink_handle_message(mavlink_message_t *msg);
 
     // Set the yaw and speed of the rover:
     int setAngleSpeed(float angle, float speed);
 
-    // RC-overwrite the channel (not working...)
-    int mavRCOVER(int angle, int speed);
 
 private:
     static std::string ini_sections(INIReader &reader);
