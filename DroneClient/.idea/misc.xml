@@ -4,6 +4,8 @@
   <component name="CidrRootsConfiguration">
     <libraryRoots>
       <file path="$PROJECT_DIR$/inc" />
+      <file path="$PROJECT_DIR$/src/dwm1001" />
+      <file path="$PROJECT_DIR$/src/hal" />
     </libraryRoots>
   </component>
   <component name="JavaScriptSettings">

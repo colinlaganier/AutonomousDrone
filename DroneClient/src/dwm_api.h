@@ -1,6 +1,6 @@
 /*! ------------------------------------------------------------------------------------------------------------------
  * @file    dwm_api.h
- * @brief   DWM1001 host API header
+ * @brief   DWM1001 host API header 
  *
  * @attention
  *
@@ -12,6 +12,10 @@
 
 #ifndef _DWM_API_H_
 #define _DWM_API_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "dwm1001_tlv.h"
 
@@ -47,8 +51,8 @@
 /********************************************************************************************************************/
 
 /**
- * @brief Initializes the required components for DWM1001 module,
- *       especially the Low-level Module Handshake (LMH) devides.
+ * @brief Initializes the required components for DWM1001 module, 
+ *       especially the Low-level Module Handshake (LMH) devides. 
  *
  * @param[in] none
  *
@@ -70,10 +74,10 @@ void dwm_deinit(void);
  * @brief Position coordinates in millimeters + quality factor
  */
 typedef struct {
-    int32_t x;
-    int32_t y;
-    int32_t z;
-    uint8_t qf;
+	int32_t x;
+	int32_t y;
+	int32_t z;
+	uint8_t qf;
 } dwm_pos_t;
 /**
  * @brief Sets position of anchor node
@@ -109,8 +113,8 @@ int dwm_pos_get(dwm_pos_t* pos);
 
 /* maximum and minimum update rate in multiple of 100 ms */
 enum dwm_upd_rate{
-    DWM_UPD_RATE_MAX = 600,	/* 1 minute */
-    DWM_UPD_RATE_MIN = 1	/* 100 ms */
+	DWM_UPD_RATE_MAX = 600,	/* 1 minute */
+	DWM_UPD_RATE_MIN = 1	/* 100 ms */
 };
 /**
  * @brief Sets update rate
@@ -139,63 +143,63 @@ int dwm_upd_rate_get(uint16_t *ur, uint16_t *urs);
  * @brief Position measurement modes
  */
 typedef enum {
-    DWM_MEAS_MODE_TWR = 0,//!< DWM_MEAS_MODE_TWR
-    DWM_MEAS_MODE_TDOA = 1//!< DWM_MEAS_MODE_TDOA
+	DWM_MEAS_MODE_TWR = 0,//!< DWM_MEAS_MODE_TWR
+	DWM_MEAS_MODE_TDOA = 1//!< DWM_MEAS_MODE_TDOA
 } dwm_meas_mode_t;
 
 /**
  * @brief Device modes
  */
 typedef enum {
-    DWM_MODE_TAG = 0,  //!< DWM_MODE_TAG
-    DWM_MODE_ANCHOR = 1//!< DWM_MODE_ANCHOR
+	DWM_MODE_TAG = 0,  //!< DWM_MODE_TAG
+	DWM_MODE_ANCHOR = 1//!< DWM_MODE_ANCHOR
 } dwm_mode_t;
 
 typedef enum {
-    DWM_UWB_MODE_OFF = 0,
-    DWM_UWB_MODE_PASSIVE = 1,
-    DWM_UWB_MODE_ACTIVE = 2
+	DWM_UWB_MODE_OFF = 0,
+	DWM_UWB_MODE_PASSIVE = 1,
+	DWM_UWB_MODE_ACTIVE = 2
 }dwm_uwb_mode_t;
 
 typedef enum {
-    DWM_UWB_BH_ROUTING_OFF = 0,
-    DWM_UWB_BH_ROUTING_ON = 1,
-    DWM_UWB_BH_ROUTING_AUTO = 2,
+	DWM_UWB_BH_ROUTING_OFF = 0,
+	DWM_UWB_BH_ROUTING_ON = 1,
+	DWM_UWB_BH_ROUTING_AUTO = 2,
 } dwm_uwb_bh_routing_t;
 
 typedef struct dwm_cfg_common {
-    dwm_uwb_mode_t uwb_mode;
-    bool fw_update_en;
-    bool ble_en;
-    bool led_en;
-    bool enc_en;
+	dwm_uwb_mode_t uwb_mode;
+	bool fw_update_en;
+	bool ble_en;
+	bool led_en;
+	bool enc_en;
 } dwm_cfg_common_t;
 
 typedef struct dwm_cfg_anchor {
-    dwm_cfg_common_t common;
-    bool bridge;
-    bool initiator;
-    dwm_uwb_bh_routing_t uwb_bh_routing;
+	dwm_cfg_common_t common;
+	bool bridge;
+	bool initiator;
+	dwm_uwb_bh_routing_t uwb_bh_routing;
 } dwm_cfg_anchor_t;
 
 typedef struct dwm_cfg_tag {
-    dwm_cfg_common_t common;
-    bool loc_engine_en;
-    bool low_power_en;
-    bool stnry_en;
-    dwm_meas_mode_t meas_mode;
+	dwm_cfg_common_t common;
+	bool loc_engine_en;
+	bool low_power_en;
+	bool stnry_en;
+	dwm_meas_mode_t meas_mode;
 } dwm_cfg_tag_t;
 
 typedef struct dwm_cfg {
-    dwm_cfg_common_t common;
-    bool loc_engine_en;
-    bool low_power_en;
-    bool stnry_en;
-    dwm_meas_mode_t meas_mode;
-    dwm_uwb_bh_routing_t uwb_bh_routing;
-    bool bridge;
-    bool initiator;
-    dwm_mode_t mode;
+	dwm_cfg_common_t common;
+	bool loc_engine_en;
+	bool low_power_en;
+	bool stnry_en;
+	dwm_meas_mode_t meas_mode;
+	dwm_uwb_bh_routing_t uwb_bh_routing;
+	bool bridge;
+	bool initiator;
+	dwm_mode_t mode;
 } dwm_cfg_t;
 
 /**
@@ -236,11 +240,11 @@ int dwm_sleep(void);
  * @brief Element of anchor list
  */
 typedef struct {
-    uint16_t node_id;
-    int32_t x,y,z;
-    int8_t rssi;
-    uint8_t seat;
-    bool neighbor_network;
+	uint16_t node_id;
+	int32_t x,y,z;
+	int8_t rssi;
+	uint8_t seat;
+	bool neighbor_network;
 } dwm_anchor_list_elt_t;
 
 
@@ -251,8 +255,8 @@ typedef struct {
  * @brief List of anchors
  */
 typedef struct {
-    uint8_t cnt;
-    dwm_anchor_list_elt_t v[DWM_RANGING_ANCHOR_CNT_MAX];
+	uint8_t cnt;
+	dwm_anchor_list_elt_t v[DWM_RANGING_ANCHOR_CNT_MAX];
 } dwm_anchor_list_t;
 
 /**
@@ -273,26 +277,26 @@ int dwm_anchor_list_get(dwm_anchor_list_t* p_list);
  * @brief Distances of ranging anchors
  */
 typedef struct {
-    uint8_t cnt;
-    uint16_t addr[DWM_RANGING_ANCHOR_CNT_MAX];
-    uint32_t dist[DWM_RANGING_ANCHOR_CNT_MAX];
-    uint8_t qf[DWM_RANGING_ANCHOR_CNT_MAX];
+	uint8_t cnt;
+	uint16_t addr[DWM_RANGING_ANCHOR_CNT_MAX];
+	uint32_t dist[DWM_RANGING_ANCHOR_CNT_MAX];
+	uint8_t qf[DWM_RANGING_ANCHOR_CNT_MAX];
 }dwm_distance_t;
 
 /**
  * @brief Position of ranging anchors
  */
 typedef struct {
-    uint8_t cnt;
-    dwm_pos_t pos[DWM_RANGING_ANCHOR_CNT_MAX];
+	uint8_t cnt;
+	dwm_pos_t pos[DWM_RANGING_ANCHOR_CNT_MAX];
 }dwm_anchor_pos_t;
 
 /**
  * @brief Distances and position of ranging anchors
  */
 typedef struct {
-    dwm_distance_t dist;
-    dwm_anchor_pos_t an_pos;
+	dwm_distance_t dist;
+	dwm_anchor_pos_t an_pos;
 }dwm_ranging_anchors_t;
 
 /**
@@ -300,8 +304,8 @@ typedef struct {
  * and distances of ranging anchors)
  */
 typedef struct dwm_loc_data_t {
-    dwm_pos_t* p_pos;
-    dwm_ranging_anchors_t anchors;
+	dwm_pos_t* p_pos;
+	dwm_ranging_anchors_t anchors;
 } dwm_loc_data_t;
 /**
  * @brief Gets location data
@@ -318,11 +322,11 @@ int dwm_loc_get(dwm_loc_data_t* loc);
  * @brief BLE address
  */
 typedef struct {
-    uint8_t byte[DWM_BLE_ADDR_LEN];
+	uint8_t byte[DWM_BLE_ADDR_LEN];
 }dwm_baddr_t;
 /**
- * @brief Sets the public BLE address used by device. New address takes effect after reset.
- *    This call do a write to internal flash in case of new value being set, hence should
+ * @brief Sets the public BLE address used by device. New address takes effect after reset. 
+ *    This call do a write to internal flash in case of new value being set, hence should 
  *    not be used frequently and can take in worst case hundreds of milliseconds
  *
  * @param[in] baddr, ble address in little endian.
@@ -341,9 +345,9 @@ int dwm_baddr_set(dwm_baddr_t* baddr);
 int dwm_baddr_get(dwm_baddr_t* baddr);
 
 typedef enum {
-    DWM_STNRY_SENSITIVITY_LOW = 0,
-    DWM_STNRY_SENSITIVITY_NORMAL = 1,
-    DWM_STNRY_SENSITIVITY_HIGH = 2
+	DWM_STNRY_SENSITIVITY_LOW = 0,
+	DWM_STNRY_SENSITIVITY_NORMAL = 1,
+	DWM_STNRY_SENSITIVITY_HIGH = 2
 } dwm_stnry_sensitivity_t;
 
 /**
@@ -393,20 +397,20 @@ int dwm_factory_reset(void);
  * @brief Firmware version data
  */
 typedef struct dwm_fw_ver_t {
-    uint8_t maj;
-    uint8_t min;
-    uint8_t patch;
-    uint8_t res;
-    uint8_t var;
+	uint8_t maj;
+	uint8_t min;
+	uint8_t patch;
+	uint8_t res;
+	uint8_t var;
 }dwm_fw_ver_t;
 
 /**
  * @brief Version data
  */
 typedef struct dwm_ver_t {
-    dwm_fw_ver_t fw;
-    uint32_t cfg;
-    uint32_t hw;
+	dwm_fw_ver_t fw;
+	uint32_t cfg;
+	uint32_t hw;
 } dwm_ver_t;
 
 /**
@@ -422,12 +426,12 @@ int dwm_ver_get(dwm_ver_t* ver);
  * @brief UWB configuration parameters
  */
 typedef struct {
-    uint8_t pg_delay;
-    uint32_t tx_power;
-    struct {
-        uint8_t pg_delay;
-        uint32_t tx_power;
-    } compensated;
+	uint8_t pg_delay;
+	uint32_t tx_power;
+	struct {
+		uint8_t pg_delay;
+		uint32_t tx_power;
+	} compensated;
 } dwm_uwb_cfg_t;
 
 /**
@@ -527,19 +531,19 @@ int dwm_label_write(uint8_t* p_label, uint8_t len);
  * @brief GPIO pins available for the user application
  */
 typedef enum {
-    DWM_GPIO_IDX_2 = 2,  //!< DWM_GPIO_IDX_2
-    DWM_GPIO_IDX_8 = 8,  //!< DWM_GPIO_IDX_8
-    DWM_GPIO_IDX_9 = 9,  //!< DWM_GPIO_IDX_9
-    DWM_GPIO_IDX_10 = 10,  //!< DWM_GPIO_IDX_10
-    DWM_GPIO_IDX_12 = 12,  //!< DWM_GPIO_IDX_12
-    DWM_GPIO_IDX_13 = 13,  //!< DWM_GPIO_IDX_13
-    DWM_GPIO_IDX_14 = 14,  //!< DWM_GPIO_IDX_14
-    DWM_GPIO_IDX_15 = 15,  //!< DWM_GPIO_IDX_15
-    DWM_GPIO_IDX_22 = 22,  //!< DWM_GPIO_IDX_22
-    DWM_GPIO_IDX_23 = 23,  //!< DWM_GPIO_IDX_23
-    DWM_GPIO_IDX_27 = 27,  //!< DWM_GPIO_IDX_27
-    DWM_GPIO_IDX_30 = 30,  //!< DWM_GPIO_IDX_30
-    DWM_GPIO_IDX_31 = 31 //!< DWM_GPIO_IDX_31
+	DWM_GPIO_IDX_2 = 2,  //!< DWM_GPIO_IDX_2
+	DWM_GPIO_IDX_8 = 8,  //!< DWM_GPIO_IDX_8
+	DWM_GPIO_IDX_9 = 9,  //!< DWM_GPIO_IDX_9
+	DWM_GPIO_IDX_10 = 10,  //!< DWM_GPIO_IDX_10
+	DWM_GPIO_IDX_12 = 12,  //!< DWM_GPIO_IDX_12
+	DWM_GPIO_IDX_13 = 13,  //!< DWM_GPIO_IDX_13
+	DWM_GPIO_IDX_14 = 14,  //!< DWM_GPIO_IDX_14
+	DWM_GPIO_IDX_15 = 15,  //!< DWM_GPIO_IDX_15
+	DWM_GPIO_IDX_22 = 22,  //!< DWM_GPIO_IDX_22
+	DWM_GPIO_IDX_23 = 23,  //!< DWM_GPIO_IDX_23
+	DWM_GPIO_IDX_27 = 27,  //!< DWM_GPIO_IDX_27
+	DWM_GPIO_IDX_30 = 30,  //!< DWM_GPIO_IDX_30
+	DWM_GPIO_IDX_31 = 31 //!< DWM_GPIO_IDX_31
 } dwm_gpio_idx_t;
 
 /**
@@ -547,9 +551,9 @@ typedef enum {
  * or up at the time of pin configuration
  */
 typedef enum {
-    DWM_GPIO_PIN_NOPULL = 0,
-    DWM_GPIO_PIN_PULLDOWN = 1,
-    DWM_GPIO_PIN_PULLUP = 3
+	DWM_GPIO_PIN_NOPULL = 0,
+	DWM_GPIO_PIN_PULLDOWN = 1,
+	DWM_GPIO_PIN_PULLUP = 3
 } dwm_gpio_pin_pull_t;
 
 /**
@@ -644,32 +648,32 @@ int dwm_node_id_get(uint64_t *p_node_id);
 
 /**
  * @brief DWM status bits mask
- */
+ */ 
 typedef enum {
-    API_STATUS_FLAG_LOC_READY = 1<<0,
-    API_STATUS_FLAG_UWBMAC_JOINED = 1<<1,
-    API_STATUS_FLAG_BH_STATUS_CHANGED = 1<<2,
-    API_STATUS_FLAG_BH_DATA_READY = 1<<3,
-    API_STATUS_FLAG_BH_INITIALIZED = 1<<4,
-    API_STATUS_FLAG_UWB_SCAN_READY = 1<<5,
-    API_STATUS_FLAG_USR_DATA_READY = 1<<6,
-    API_STATUS_FLAG_USR_DATA_SENT  = 1<<7,
-    API_STATUS_FLAG_FWUP_IN_PROGRESS = 1<<8
+	API_STATUS_FLAG_LOC_READY = 1<<0,
+	API_STATUS_FLAG_UWBMAC_JOINED = 1<<1,
+	API_STATUS_FLAG_BH_STATUS_CHANGED = 1<<2,
+	API_STATUS_FLAG_BH_DATA_READY = 1<<3,
+	API_STATUS_FLAG_BH_INITIALIZED = 1<<4,
+	API_STATUS_FLAG_UWB_SCAN_READY = 1<<5,
+	API_STATUS_FLAG_USR_DATA_READY = 1<<6,
+	API_STATUS_FLAG_USR_DATA_SENT  = 1<<7,
+	API_STATUS_FLAG_FWUP_IN_PROGRESS = 1<<8
 } api_status_flags_t;
 
 /**
  * @brief DWM status
  */
 typedef struct dwm_status_t {
-    bool loc_data;
-    bool uwbmac_joined;
-    bool bh_data_ready;
-    bool bh_status_changed;
-    bool bh_initialized;
-    bool uwb_scan_ready;
-    bool usr_data_ready;
-    bool usr_data_sent;
-    bool fwup_in_progress;
+	bool loc_data;
+	bool uwbmac_joined;
+	bool bh_data_ready;
+	bool bh_status_changed;
+	bool bh_initialized;
+	bool uwb_scan_ready;
+	bool usr_data_ready;
+	bool usr_data_sent;
+	bool fwup_in_progress;
 } dwm_status_t;
 
 /**
@@ -700,7 +704,7 @@ int dwm_status_get(dwm_status_t* p_status);
 /**
  * @brief Enables interrupt generation for various events
  *
- * @param[in] value, interrupt values among:
+ * @param[in] value, interrupt values among: 
  * DWM1001_INTR_NONE                   0
  * DWM1001_INTR_LOC_READY		         (1 << 0)
  * DWM1001_INTR_SPI_DATA_READY	      (1 << 1)
@@ -719,7 +723,7 @@ int dwm_int_cfg_set(uint16_t value);
 /**
  * @brief Get status of interrupt generation events
  *
- * @param[in] value, interrupt values among:
+ * @param[in] value, interrupt values among: 
  * DWM1001_INTR_NONE                   0
  * DWM1001_INTR_LOC_READY		         (1 << 0)
  * DWM1001_INTR_SPI_DATA_READY	      (1 << 1)
@@ -734,18 +738,18 @@ int dwm_int_cfg_set(uint16_t value);
  * @return Error code
  */
 int dwm_int_cfg_get(uint16_t *p_value);
-
+   
 typedef struct {
-    uint16_t node_id;
-    uint8_t bh_seat;
-    uint8_t hop_lvl;
+	uint16_t node_id;
+	uint8_t bh_seat;
+	uint8_t hop_lvl;
 }origin_info_t;
 
 typedef struct {
-    uint16_t sf_number;
-    uint32_t bh_seat_map;
-    uint8_t origin_cnt;
-    origin_info_t origin_info[DWM_API_BH_ORIGIN_CNT_MAX];
+	uint16_t sf_number;
+	uint32_t bh_seat_map;
+	uint8_t origin_cnt;
+	origin_info_t origin_info[DWM_API_BH_ORIGIN_CNT_MAX];
 }bh_status_t;
 /**
  * @brief Reads UWBMAC status
@@ -763,7 +767,7 @@ int dwm_bh_status_get(bh_status_t * p_bh_status);
  * @brief encryption key
  */
 typedef struct {
-    uint8_t byte[DWM_ENC_KEY_LEN];
+	uint8_t byte[DWM_ENC_KEY_LEN];
 }dwm_enc_key_t;
 
 /**
@@ -810,10 +814,10 @@ int dwm_enc_key_clear(void);
 
 /* valid UWB preamble codes */
 typedef enum {
-    DWM_UWB_PRAMBLE_CODE_9 = 9,
-    DWM_UWB_PRAMBLE_CODE_10 = 10,
-    DWM_UWB_PRAMBLE_CODE_11 = 11,
-    DWM_UWB_PRAMBLE_CODE_12 = 12
+	DWM_UWB_PRAMBLE_CODE_9 = 9,
+	DWM_UWB_PRAMBLE_CODE_10 = 10,
+	DWM_UWB_PRAMBLE_CODE_11 = 11,
+	DWM_UWB_PRAMBLE_CODE_12 = 12
 } dwm_uwb_preamble_code_t;
 
 /**
@@ -849,9 +853,9 @@ int dwm_uwb_preamble_code_get(dwm_uwb_preamble_code_t *p_code); // todo
  * @brief UWB scan result data
  */
 typedef struct {
-    uint8_t cnt;
-    uint8_t mode[DWM_UWB_SCAN_RESULT_CNT_MAX];
-    int8_t rssi[DWM_UWB_SCAN_RESULT_CNT_MAX];
+	uint8_t cnt;
+	uint8_t mode[DWM_UWB_SCAN_RESULT_CNT_MAX];
+	int8_t rssi[DWM_UWB_SCAN_RESULT_CNT_MAX];
 } dwm_uwb_scan_result_t;
 
 /**
@@ -867,33 +871,33 @@ int dwm_uwb_scan_start(void);
 /**
  * @brief Read latest UWB scan result
  *
- * @param[out] p_result The scan result data pointer
+ * @param[out] p_result The scan result data pointer 
  * output = err_code, mode, rssi, [mode, rssi]
  * mode = 1 byte, unsigned integer
-   mode 0:
-      channel=5
-      PRF=64
-      PREAMBLE_LENGTH=128
-      PAC_SIZE=8
-      TXCODE=9
-      RXCODE=9
-      STANDARD_FRAME_DELIM=0
-      BAUD_RATE=6800
-      PHR_EXTENDED
-      SFD_TIMEOUT=129
-      SMARTPOWER=1
-   mode 1:
-      channel=5
-      PRF=16
-      PREAMBLE_LENGTH=128
-      PAC_SIZE=8
-      TXCODE=9
-      RXCODE=9
-      STANDARD_FRAME_DELIM=0
-      BAUD_RATE=6800
-      PHR_EXTENDED
-      SFD_TIMEOUT=129
-      SMARTPOWER=1
+   mode 0: 
+      channel=5 
+      PRF=64 
+      PREAMBLE_LENGTH=128 
+      PAC_SIZE=8 
+      TXCODE=9 
+      RXCODE=9 
+      STANDARD_FRAME_DELIM=0 
+      BAUD_RATE=6800 
+      PHR_EXTENDED 
+      SFD_TIMEOUT=129 
+      SMARTPOWER=1 
+   mode 1: 
+      channel=5 
+      PRF=16 
+      PREAMBLE_LENGTH=128 
+      PAC_SIZE=8 
+      TXCODE=9 
+      RXCODE=9 
+      STANDARD_FRAME_DELIM=0 
+      BAUD_RATE=6800 
+      PHR_EXTENDED 
+      SFD_TIMEOUT=129 
+      SMARTPOWER=1      
  * rssi = 1 byte, signed integer (* UWB signal strength indication in dB*)
  * @return Error code
  * @retval DWM_OK Success
@@ -902,6 +906,10 @@ int dwm_uwb_scan_start(void);
  * @retval DWM_ERR_INVAL_ADDR null pointer supplied
  */
 int dwm_uwb_scan_result_get(dwm_uwb_scan_result_t *p_result);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_DWM_API_H_
 
