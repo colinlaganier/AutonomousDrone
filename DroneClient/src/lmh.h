@@ -31,12 +31,12 @@ extern "C" {
 
 //#if INTERFACE_NUMBER == 0
 //#include "lmh_uartrx.h"
-#if INTERFACE_NUMBER == 1
+//#if INTERFACE_NUMBER == 1
 #include "lmh_spirx.h"
-#elif INTERFACE_NUMBER == 2
-#include "lmh_spirx.h"
-#include "lmh_spirx_drdy.h"
-#endif  
+//#elif INTERFACE_NUMBER == 2
+//#include "lmh_spirx.h"
+//#include "lmh_spirx_drdy.h"
+//#endif
 
 
 /** 

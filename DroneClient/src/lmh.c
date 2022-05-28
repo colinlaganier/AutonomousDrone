@@ -30,16 +30,16 @@
  */
 void LMH_Init(void)
 {
-#if INTERFACE_NUMBER == 0
-   HAL_Log("lmh:     LMH_UARTRX_Init()...\n");  
-   LMH_UARTRX_Init();
-#elif INTERFACE_NUMBER == 1
+//#if INTERFACE_NUMBER == 0
+//   HAL_Log("lmh:     LMH_UARTRX_Init()...\n");
+//   LMH_UARTRX_Init();
+//#elif INTERFACE_NUMBER == 1
    HAL_Log("lmh:     LMH_SPIRX_Init(): SPI dev%d...\n", HAL_SPI_Which());  
    LMH_SPIRX_Init();
-#elif INTERFACE_NUMBER == 2
-   HAL_Log("lmh:     LMH_SPIRX_DRDY_Init(): SPI dev%d...\n", HAL_SPI_Which());  
-   LMH_SPIRX_DRDY_Init();
-#endif
+//#elif INTERFACE_NUMBER == 2
+//   HAL_Log("lmh:     LMH_SPIRX_DRDY_Init(): SPI dev%d...\n", HAL_SPI_Which());
+//   LMH_SPIRX_DRDY_Init();
+//#endif
 }
 
 /** 

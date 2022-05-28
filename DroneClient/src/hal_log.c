@@ -14,8 +14,11 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#define HAL_LOG_ENABLED 1
+
 static char log_file_name[]="log.txt";
-static FILE * fp = NULL;   
+static FILE * fp = NULL;
+
 
 /** 
  * @brief get log file pointer. 
