@@ -135,7 +135,8 @@ void DWM1001C::dwm_send_vehicle_position(coordinates_t& position)
 
 int DWM1001C::dwm_setup_serial() {
     // Initializing UART communication
-    uwb_serial = serialOpen("/dev/ttyUSB0", 115200);
+    uwb_serial = serialOpen(UWB_UARTNAME, UWB_BAUDRATE);
+
     if (uwb_serial < 0)
     {
         std::cout << "Unable to open uwb serial device\n";

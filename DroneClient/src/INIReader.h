@@ -1,17 +1,13 @@
-// Read an INI file into easy-to-access name/value pairs.
-
-// inih and INIReader are released under the New BSD license (see LICENSE.txt).
-// Go to the project home page for more info:
-//
-// https://github.com/benhoyt/inih
-/* inih -- simple .INI file parser
-
-inih is released under the New BSD license (see LICENSE.txt). Go to the project
-home page for more info:
-
-https://github.com/benhoyt/inih
-
-*/
+/**
+  **********************************************************************************
+  * @file     INIReader.h
+  * @author   Colin Laganier modified from Ben Hoyt
+  * @version  V0.1
+  * @date     2022-05-01
+  * @brief   This file contains the header methods to read, write and parse INI files.
+  **********************************************************************************
+  * @attention
+  */
 
 #ifndef __INI_H__
 #define __INI_H__

@@ -28,7 +28,7 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 set_source_files_properties(filename.c PROPERTIES LANGUAGE CXX )
 
 add_definitions(-INTERFACE_NUMBER=1)
-add_executable(DroneClient src/main.cpp src/Drone.cpp src/Drone.h src/serial_port.cpp src/serial_port.h src/DWM1001C.cpp src/DWM1001C.h
+add_executable(DroneClient src/main.cpp src/Drone.cpp src/Drone.h src/Serial.cpp src/Serial.h src/DWM1001C.cpp src/DWM1001C.h
         src/dwm_api.c src/dwm_api.h src/lmh.c
         src/lmh.h
         src/lmh_spirx.c

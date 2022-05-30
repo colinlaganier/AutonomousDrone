@@ -23,8 +23,7 @@
 //#include "wiringPi/wiringPi/wiringSerial.h"
 #include "mavlink/common/mavlink.h"
 #include "mavlink/ardupilotmega/ardupilotmega.h"
-//#include "common/mavlink_msg_request_data_stream.h"
-#include "serial_port.h"
+#include "Serial.h"
 #include <unistd.h>
 
 // Mavlink Serial Setup

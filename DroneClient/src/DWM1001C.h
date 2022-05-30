@@ -21,15 +21,16 @@
 #define MSGID_BEACON_CONFIG 0x02
 #define MSGID_BEACON_DIST   0x03
 #define MSGID_POSITION      0x04
+#define UWB_BAUDRATE 115200
+#define UWB_UARTNAME "/dev/ttyUSB0"
 
 #include <iostream>
 #include "hal.h"
 #include "dwm_api.h"
-//#include <wiringPi/wiringPi.h>
-//#include <wiringPi/wiringSerial.h>
 #include "wiringPi/wiringPi/wiringPi.h"
 #include "wiringPi/wiringPi/wiringSerial.h"
-
+//#include <wiringPi/wiringPi.h>
+//#include <wiringPi/wiringSerial.h>
 
 // Ardupilot message structures
 union beacon_config_msg {
