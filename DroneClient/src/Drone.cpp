@@ -64,7 +64,7 @@ void Drone::get_info(std::string file_name)
         std::cout << "Cannot load " << file_name;
     }
     else {
-        std::cout << "Config loaded from "<< file_name << ": found sections=" << ini_sections(reader) << "\n";
+        std::cout << "config loaded from "<< file_name << ": found sections=" << ini_sections(reader) << "\n";
 
         //    Assign values to variables from config file
         drone_id = reader.GetInteger("drone", "drone_id", 0);
