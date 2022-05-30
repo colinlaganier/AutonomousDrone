@@ -92,20 +92,20 @@ void HAL_Print(const char* format, ... )
 {
    va_list args;
    va_start( args, format);
-#if PRINT_LVL == 0
-   HAL_Nop();
-#elif PRINT_LVL == 1   
-   vfprintf( HAL_Log_GetFile(), format, args );
-   fflush(HAL_Log_GetFile());   
-#elif PRINT_LVL == 2   
+//#if PRINT_LVL == 0
+//   HAL_Nop();
+//#elif PRINT_LVL == 1
+//   vfprintf( HAL_Log_GetFile(), format, args );
+//   fflush(HAL_Log_GetFile());
+//#elif PRINT_LVL == 2
+//   vprintf(format, args);
+//#elif PRINT_LVL == 3
    vprintf(format, args);
-#elif PRINT_LVL == 3
-   vprintf(format, args);
    vfprintf( HAL_Log_GetFile(), format, args );
-   fflush(HAL_Log_GetFile());   
-#else
-   HAL_Nop();
-#endif //USE_HAL_PRINT   
+   fflush(HAL_Log_GetFile());
+//#else
+//   HAL_Nop();
+//#endif //USE_HAL_PRINT
    va_end( args );
 }
 

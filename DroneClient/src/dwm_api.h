@@ -4,7 +4,10 @@
  *
  * @attention
  *
- * Copyright 2017 (c) Decawave Ltd, Dublin, Ireland.
+ * Copyright 2017 (c
+ *
+ *
+ * ) Decawave Ltd, Dublin, Ireland.
  *
  * All rights reserved.
  *

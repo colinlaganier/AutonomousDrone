@@ -117,6 +117,10 @@ int main(){
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     dwm.dwm_setup();
+    if (dwm.dwm_setup_serial() == 1){
+        std::cout << "UWB Serial setup error\n";
+        return -1;
+    }
     if (dwm.dwm_verify_config()) {
         std::cout << "UWB Setup Complete";
         drone.toggle_sensor_uwb();
@@ -291,8 +295,13 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 }
 
 [[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message, DWM1001C *dwm){
-//[[noreturn]] void control_loop(Drone *drone, Tcp_message *tcp_message){
     char message_response[256];
+    static uint32_t loop_start = 0;
+    static uint8_t stage = 0;   // 0 = initialisation, 1 = normal flight
+    static uint16_t beacon_sent_count = 0;
+    static uint32_t beacon_sent_time = 0;
+    uint8_t counter = 0;
+
     while (true) {
         // Send heartbeat at a ~1Hz frequency
 //        unsigned long mavlink_current_heartbeat = millis();
@@ -310,33 +319,64 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 //        }
 
         // Fetch uwb positioning
-        unsigned long uwb_current_sensing = millis();
-        std::cout << uwb_current_sensing << '\n';
-        if ((uwb_current_sensing - dwm->uwb_last_sensing ) > dwm->wait_period){
-            std::cout << "UWB measurement \n";
-            dwm->uwb_last_sensing = uwb_current_sensing;
-
-            if(dwm_loc_get(&(dwm->loc)) == RV_OK)
-            {
-                HAL_Print("\t[%d,%d,%d,%u]\n", dwm->loc.p_pos->x, dwm->loc.p_pos->y, dwm->loc.p_pos->z,
-                          dwm->loc.p_pos->qf);
-
-                for (int i = 0; i < dwm->loc.anchors.dist.cnt; ++i)
-                {
-                    HAL_Print("\t%u)", i);
-                    HAL_Print("0x%llx", dwm->loc.anchors.dist.addr[i]);
-                    if (i < dwm->loc.anchors.an_pos.cnt)
-                    {
-                        HAL_Print("[%d,%d,%d,%u]", dwm->loc.anchors.an_pos.pos[i].x,
-                                  dwm->loc.anchors.an_pos.pos[i].y,
-                                  dwm->loc.anchors.an_pos.pos[i].z,
-                                  dwm->loc.anchors.an_pos.pos[i].qf);
-                    }
-                    HAL_Print("=%u,%u\n", dwm->loc.anchors.dist.dist[i], dwm->loc.anchors.dist.qf[i]);
-
-                }
+//        unsigned long uwb_current_sensing = millis();
+////        std::cout << uwb_current_sensing << '\n';
+//        if ((uwb_current_sensing - dwm->uwb_last_sensing ) > dwm->wait_period){
+////            std::cout << "UWB measurement \n";
+//            dwm->uwb_last_sensing = uwb_current_sensing;
+//            std::cout << "Number of anchors: " << (int)dwm->loc.anchors.dist.cnt << '\n';
+//
+//            if(dwm_loc_get(&(dwm->loc)) == RV_OK)
+//            {
+//                HAL_Print("\t[%d,%d,%d,%u]\n", dwm->loc.p_pos->x, dwm->loc.p_pos->y, dwm->loc.p_pos->z,
+//                          dwm->loc.p_pos->qf);
+//
+//                for (int i = 0; i < dwm->loc.anchors.dist.cnt; ++i)
+//                {
+//                    HAL_Print("\t%u)", i);
+//                    HAL_Print("0x%llx", dwm->loc.anchors.dist.addr[i]);
+//                    if (i < dwm->loc.anchors.an_pos.cnt)
+//                    {
+//                        HAL_Print("[%d,%d,%d,%u]", dwm->loc.anchors.an_pos.pos[i].x,
+//                                  dwm->loc.anchors.an_pos.pos[i].y,
+//                                  dwm->loc.anchors.an_pos.pos[i].z,
+//                                  dwm->loc.anchors.an_pos.pos[i].qf);
+//                    }
+//                    HAL_Print("=%u,%u\n", dwm->loc.anchors.dist.dist[i], dwm->loc.anchors.dist.qf[i]);
+//
+//                }
+//            }
+//        }
+        // advance to normal flight stage after 1min
+        if (stage == 0) {
+            uint32_t time_diff =  (millis() - loop_start);
+            if (time_diff > 60000) {
+                stage = 1;
+                std::cout << "Stage1\n";
             }
         }
+
+        // slow down counter
+        counter++;
+        if (counter >= 20) {
+            counter = 0;
+        }
+        if (stage == 0 || counter == 0) {
+            dwm->dwm_send_beacon_config();
+            dwm->dwm_get_position();
+            if (beacon_sent_count > 0 && beacon_sent_time != 0) {
+                uint32_t time_diff = millis() - beacon_sent_time;
+                float hz = (float)beacon_sent_count / (time_diff / 1000.0f);
+                std::cout << "Beacon hz:" << hz << '\n';
+            }
+            beacon_sent_count = 0;
+            beacon_sent_time = millis();
+        }
+
+        // send beacon distances
+        dwm->dwm_get_ranges();
+        beacon_sent_count++;
+
 
         // Check if TCP command received from Ground Station
 //        if (tcp_message->receive_flag){
@@ -352,7 +392,7 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 //            std::cout <<
 
         //  Receiving MAVLINK data
-        drone->mavlink_receive_data();
+//        drone->mavlink_receive_data();
 
         // Toggle spray if over a table
 //        if (drone->spray_state != drone->identify_table())
