@@ -137,9 +137,7 @@ int Serial_Port::read_message(mavlink_message_t &message)
 // ------------------------------------------------------------------------------
 //   Write to Serial
 // ------------------------------------------------------------------------------
-int
-Serial_Port::
-write_message(const mavlink_message_t &message)
+int Serial_Port::write_message(const mavlink_message_t &message)
 {
 	char buf[300];
 
@@ -213,9 +211,7 @@ void Serial_Port::open_serial()
 // ------------------------------------------------------------------------------
 //   Close Serial Port
 // ------------------------------------------------------------------------------
-void
-Serial_Port::
-close_serial()
+void Serial_Port::close_serial()
 {
 	printf("CLOSE PORT\n");
 
@@ -236,16 +232,12 @@ close_serial()
 // ------------------------------------------------------------------------------
 //   Convenience Functions
 // ------------------------------------------------------------------------------
-void
-Serial_Port::
-start()
+void Serial_Port::start()
 {
 	open_serial();
 }
 
-void
-Serial_Port::
-stop()
+void Serial_Port::stop()
 {
 	close_serial();
 }
@@ -254,9 +246,7 @@ stop()
 // ------------------------------------------------------------------------------
 //   Quit Handler
 // ------------------------------------------------------------------------------
-void
-Serial_Port::
-handle_quit( int sig )
+void Serial_Port::handle_quit( int sig )
 {
 	try {
 		stop();
@@ -299,9 +289,7 @@ int Serial_Port::_open_port(const char* port)
 //   Helper Function - Setup Serial Port
 // ------------------------------------------------------------------------------
 // Sets configuration, flags, and baud rate
-bool
-Serial_Port::
-_setup_port(int baud, int data_bits, int stop_bits, bool parity, bool hardware_control)
+bool Serial_Port::_setup_port(int baud, int data_bits, int stop_bits, bool parity, bool hardware_control)
 {
 	// Check file descriptor
 	if(!isatty(fd))
@@ -445,9 +433,7 @@ _setup_port(int baud, int data_bits, int stop_bits, bool parity, bool hardware_c
 // ------------------------------------------------------------------------------
 //   Read Port with Lock
 // ------------------------------------------------------------------------------
-int
-Serial_Port::
-_read_port(uint8_t &cp)
+int Serial_Port::_read_port(uint8_t &cp)
 {
 
 	// Lock

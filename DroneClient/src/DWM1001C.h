@@ -82,7 +82,7 @@ public:
     virtual ~DWM1001C();
 
     //    Public Variables
-    const int wait_period = 1000;
+    const int wait_period = 200;
     unsigned long uwb_last_sensing;
     int uwb_serial;
     dwm_cfg_tag_t cfg_tag;
@@ -94,11 +94,23 @@ public:
 //                                       0x530cbe81e838, // x-axis
 //                                       0x5d86be81e838, // y-axis
 //                                       0xc604be81e838};
+
+//    0)0x530cbef91838=343,100
+//    1)0xd837bef91838=3180,100
+//    2)0xc604bef91838=2506,100
+//    3)0x5d86bef91838=1578,100
+
     // ID anchor modified to fit pozyx format
-    uint16_t anchor_id[4] = { 0x6001, // (0,0)
-                              0x6002, // x-axis
-                              0x6003, // y-axis
-                              0x6004};
+    uint16_t anchor_id[4] = { 0x530c, // (0,0)
+                              0x5d86, // x-axis
+                              0xc604, // y-axis
+                              0xd837};
+
+//    0x530c  0
+//    0xd837  3
+//    0xc604  2
+//    0x5d86  1
+
     int32_t anchors_x[NUM_ANCHORS] = {0, 2500, 0, 2500};    // anchor x-coorindates in mm (horizontal)
     int32_t anchors_y[NUM_ANCHORS] = {0, 0, 2500, 2500};    // anchor y-coordinates in mm (vertical)
     int32_t anchors_z[NUM_ANCHORS] = {-1200, -1200, -1200,-1200};    // anchor z-coordinates in mm (1.2m above vehicle's starting altitude)
@@ -114,6 +126,8 @@ public:
     void dwm_send_message(uint8_t msg_id, uint8_t data_len, uint8_t data_buf[]);
     void dwm_send_beacon_distance(uint8_t beacon_id, uint32_t distance_mm);
     void dwm_send_vehicle_position(coordinates_t& position);
+    void dwm_get_testing_position(int* read_val);
+
 };
 
 #endif //DRONECLIENT_DWM1001C_H

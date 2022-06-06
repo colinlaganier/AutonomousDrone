@@ -204,7 +204,7 @@ void DWM1001C::dwm_get_ranges()
         for (uint8_t i = 0; i < loc.anchors.dist.cnt; ++i)
         {
             HAL_Print("\t%u)", i);
-            HAL_Print("0x%llx", loc.anchors.dist.addr[i]);
+                HAL_Print("0x%llx", loc.anchors.dist.addr[i]>>8);
             HAL_Print("=%u,%u\n", loc.anchors.dist.dist[i], loc.anchors.dist.qf[i]);
             dwm_send_beacon_distance(i, loc.anchors.dist.dist[i]);
         }
@@ -223,3 +223,22 @@ void DWM1001C::dwm_send_beacon_distance(uint8_t beacon_id, uint32_t distance_mm)
     msg.info.distance = distance_mm;
     dwm_send_message(MSGID_BEACON_DIST, sizeof(msg.buf), msg.buf);
 }
+
+void DWM1001C::dwm_get_testing_position(int* read_val)
+{
+    bool success = false;
+    if(dwm_loc_get(&(loc)) == RV_OK) {
+        for (uint8_t i = 0; i < loc.anchors.dist.cnt; ++i)
+        {
+            read_val[i] = loc.anchors.dist.dist[i];
+        }
+        success = true;
+        read_val[4] = loc.p_pos->x;
+        read_val[5] = loc.p_pos->y;
+        read_val[6] = loc.p_pos->z;
+        read_val[7] = loc.p_pos->qf;
+    }
+    if (!success) {
+        std::cout << "Failed to get ranges\n";
+    }
+};

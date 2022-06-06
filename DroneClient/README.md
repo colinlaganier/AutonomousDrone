@@ -13,7 +13,7 @@ To run the code, ensure the server is up and running and enter the following com
 
 ```
 mkdir build && cd build
-cmake ../CMakeList.txt
+cmake ../CMakeLists.txt
 make 
 ./DroneClient
 ```
