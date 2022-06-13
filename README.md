@@ -20,7 +20,7 @@ The drone is built upon the Diatone Taycan C25 MK2 frame, with 2004 BetaFPV brus
 
 The control software is running on a Raspberry Pi Zero 2 W running Debian on each drone, connected to a central PC running Ubuntu 16.04 using a TCP/IP communication.  
 
-<img src="./PCB/communication_diagram.jpg" width="500">
+<img src="./Hardware/communication_diagram.jpg" width="500">
 <sub>Communication Architecture of Proposed Solution</sub>
 
 ## PCB
@@ -33,6 +33,7 @@ A custom PCB was designed to hold together the DWM1001C module from Decawave, as
 ## Room Mapping
 
 The room mapping is done using ROS running on an Linux PC using three Kinects v2 and the libfreenect2 driver with CUDA acceleration. The room mapping is done using RTAB-Map to create a 2D grid array of the furniture in the lecture hall. 
+
 <img src="./RoomMapping/mapping_screenshot.jpg" width="500">
 <sub>Screenshot of the RTAB-Map Development GUI</sub>
 
