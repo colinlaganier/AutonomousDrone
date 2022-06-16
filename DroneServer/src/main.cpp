@@ -9,12 +9,49 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <ctime>
+#include <thread>
+#include <atomic>
+#include <iostream>
+#include <chrono>
+#include <thread>
+#include <stdlib.h>
 
 #define TRUE   1
 #define FALSE  0
 #define PORT 8888
+#define MESSAGE_BUFFER 128
 
-int main(int argc , char *argv[]) {
+struct thread_message{
+    std::atomic_bool send_flag;
+    char send_message[MESSAGE_BUFFER];
+    std::atomic_bool init;
+};
+
+// Function Prototypes
+int communication_thread(thread_message *message);
+[[noreturn]] void command_line_thread(thread_message *message);
+
+int main(int argc, char *argv[]){
+
+    thread_message message;
+    message.send_flag = false;
+    message.init = false;
+
+    std::thread communication(communication_thread, &message);
+    std::thread command_line(command_line_thread, &message);
+
+    command_line.join();
+    communication.join();
+
+    return 0;
+}
+
+int communication_thread(thread_message *message){
+    while (!message->init)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
+
     int opt = TRUE;
     int master_socket, addrlen, new_socket, client_socket[30], max_clients = 3, activity, i, valread, sd;
     int max_sd;
@@ -157,6 +194,42 @@ int main(int argc , char *argv[]) {
 //                    send(sd , buffer , strlen(buffer) , 0 );
                 }
             }
+        }
+    }
+}
+
+[[noreturn]] void command_line_thread(thread_message *message){
+    bool reading = true;
+
+    while(reading){
+        std::string str;
+        std::string delimiter = ":";
+        getline(std::cin, str);
+
+        if (str == "exit")
+        {
+            exit(1);
+        }
+        else
+        {
+            // Split values from string
+            std::string target_id;
+            std::string function;
+            std::string value;
+            size_t str_len = str.length();
+
+            size_t splitter_1 = 0;
+            splitter_1 = str.find(delimiter,0);
+            target_id = str.substr(0,splitter_1);
+
+            size_t splitter_2 = str.find(delimiter, splitter_1);
+            function = str.substr(splitter_1 + 1,splitter_2);
+
+            value = str.substr(splitter_2 + 1,str_len - 1);
+
+            std::cout << "target: " << target_id << ", function: " << function << ", value: " << value << '\n';
+
+            exit(2);
         }
     }
 }
