@@ -1,4 +1,4 @@
-# Autonomous Indoor Drone Swarm Sanitation System
+# Autonomous Indoor Drone Sanitation System
 
 ## Description  
 
