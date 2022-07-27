@@ -27,9 +27,16 @@ struct thread_message{
     std::atomic_bool init;
 };
 
+struct target_drone{
+    std::string id;
+    int client_index;
+};
+
 // Function Prototypes
 int communication_thread(thread_message *message);
 [[noreturn]] void command_line_thread(thread_message *message);
+void parse_function(thread_message *message, int target, std::string function, std::string value);
+int get_client_id(std::string target_id);
 
 int main(int argc, char *argv[]){
 
@@ -37,17 +44,19 @@ int main(int argc, char *argv[]){
     message.send_flag = false;
     message.init = false;
 
-    std::thread communication(communication_thread, &message);
-    std::thread command_line(command_line_thread, &message);
+//    std::thread communication(communication_thread, &message);
+//    std::thread command_line(command_line_thread, &message);
+//
+//    command_line.join();
+//    communication.join();
 
-    command_line.join();
-    communication.join();
+    command_line_thread(&message);
 
     return 0;
 }
 
-int communication_thread(thread_message *message){
-    while (!message->init)
+int communication_thread(thread_message *command_message){
+    while (!command_message->init)
     {
         std::this_thread::sleep_for(std::chrono::seconds(2));
     }
@@ -203,9 +212,9 @@ int communication_thread(thread_message *message){
 
     while(reading){
         std::string str;
-        std::string delimiter = ":";
-        getline(std::cin, str);
-
+        const char* delimiter = ":";
+//        getline(std::cin, str);
+        str = "drone001:takeoff:2";
         if (str == "exit")
         {
             exit(1);
@@ -218,18 +227,53 @@ int communication_thread(thread_message *message){
             std::string value;
             size_t str_len = str.length();
 
-            size_t splitter_1 = 0;
-            splitter_1 = str.find(delimiter,0);
+            int splitter_count = 0;
+            for (int i = 0; i < str.size(); i++)
+                if (str[i] == ':') splitter_count++;
+
+            size_t splitter_1 = str.find(delimiter,0);
             target_id = str.substr(0,splitter_1);
 
-            size_t splitter_2 = str.find(delimiter, splitter_1);
-            function = str.substr(splitter_1 + 1,splitter_2);
+            std::cout << splitter_1 << std::endl;
 
-            value = str.substr(splitter_2 + 1,str_len - 1);
+            if (splitter_count > 1) {
+                std::cout << "With value" << std::endl;
+                size_t splitter_2 = str.find(delimiter, splitter_1,1);
+                std::cout << splitter_2 << std::endl;
+                function = str.substr(splitter_1 + 1, splitter_2 + 1);
+
+                value = str.substr(splitter_1 + splitter_2 + 3);
+            }
+            else {
+                std::cout << "No value" << std::endl;
+                function = str.substr(splitter_1 + 1);
+                value = "0";
+            }
 
             std::cout << "target: " << target_id << ", function: " << function << ", value: " << value << '\n';
+
+            int client_id = get_client_id(target_id);
+
+            parse_function(message,client_id,function,value);
 
             exit(2);
         }
     }
+}
+
+
+void parse_function(thread_message *message, int target, std::string function, std::string value){
+    if (function == "takeoff")
+    {
+
+    }
+    else if (function == "change_mode")
+    {
+        message->send_message =
+    }
+}
+
+int get_client_id(std::string target_id)
+{
+    return 0;
 }

@@ -106,6 +106,12 @@ int main(){
     read(server_socket, buffer, MESSAGE_BUFFER);
     std::cout << "Connection confirmation:" << buffer << "\n";
 
+    int index = 0;
+
+    while (index < 100000){
+        index++;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Initializing UART communication
 
@@ -115,30 +121,30 @@ int main(){
 //    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    dwm.dwm_setup();
-    if (dwm.dwm_setup_serial() == 1){
-        std::cout << "UWB Serial setup error\n";
-        return -1;
-    }
-    if (dwm.dwm_verify_config()) {
-        std::cout << "UWB Setup Complete";
-        drone.toggle_sensor_uwb();
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    if (drone.drone_ready())
-    {
-        printf("Drone ready\n");
-        // Create separate threads to receive base station commands while running
-//        std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
-        std::thread control_thread(control_loop, &drone, &tcp_message, &dwm);
-//        std::thread control_thread(control_loop, &drone, &tcp_message);
-
-//        network_thread.join();
-        control_thread.join();
-    }
+//
+//    dwm.dwm_setup();
+//    if (dwm.dwm_setup_serial() == 1){
+//        std::cout << "UWB Serial setup error\n";
+//        return -1;
+//    }
+//    if (dwm.dwm_verify_config()) {
+//        std::cout << "UWB Setup Complete";
+//        drone.toggle_sensor_uwb();
+//    }
+//
+//    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    if (drone.drone_ready())
+//    {
+//        printf("Drone ready\n");
+//        // Create separate threads to receive base station commands while running
+////        std::thread network_thread(tcp_handler, server_socket, buffer, &tcp_message);
+//        std::thread control_thread(control_loop, &drone, &tcp_message, &dwm);
+////        std::thread control_thread(control_loop, &drone, &tcp_message);
+//
+////        network_thread.join();
+//        control_thread.join();
+//    }
     return 0;
 }
 
@@ -379,14 +385,14 @@ void tcp_set_message(Tcp_message *message_object, char *new_message, bool send_o
 
 
         // Check if TCP command received from Ground Station
-//        if (tcp_message->receive_flag){
-////            std::cout << "Received message\n";
-//            int message_head = (int)tcp_message->receive_message[0];
-//            if (message_head != drone->get_state()){
-//                identify_message(drone, tcp_message->receive_message, message_head, message_response);
-//                tcp_set_message(tcp_message, message_response, true);
-//            }
-//        }
+        if (tcp_message->receive_flag){
+//            std::cout << "Received message\n";
+            int message_head = (int)tcp_message->receive_message[0];
+            if (message_head != drone->get_state()){
+                identify_message(drone, tcp_message->receive_message, message_head, message_response);
+                tcp_set_message(tcp_message, message_response, true);
+            }
+        }
 
 //        if (drone->state == TAKEOFF)
 //            std::cout <<
