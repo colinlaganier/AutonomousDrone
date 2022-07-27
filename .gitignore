@@ -15,6 +15,7 @@ venv
 CMakeScripts
 Testing
 Makefile
+**/.vscode
 
 install_manifest.txt
 compile_commands.json
