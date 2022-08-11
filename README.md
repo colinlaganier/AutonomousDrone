@@ -41,3 +41,7 @@ The room mapping is done using ROS running on an Linux PC using three Kinects v2
 
 The positioning system rely on the DWM1001C Ultra-Wideband chip by Decawave and used an asymetric two-way ranging positioning system designed by Decawave. This system provides a sub-20cm positioning error within the tested environment. The ranging data is fetched from the IC by the Raspberry Pi, reformated and fed into the Arducopter Extended Kalman Filtering positioning system where it is combined with IMU, barometer and compass data.
 
+<p align="middle">
+  <img src="./Hardware/drone_flight1.gif" width="400"/>
+  <img src="./Hardware/drone_flight2.gif" width="400"/> 
+</p>
